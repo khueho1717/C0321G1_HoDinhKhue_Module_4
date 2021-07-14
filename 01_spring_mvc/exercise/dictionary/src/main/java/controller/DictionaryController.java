@@ -10,21 +10,16 @@ import services.DictionaryService;
 @Controller
 public class DictionaryController {
     @Autowired
-    DictionaryService dictionaryService ;
-
+    DictionaryService service;
     @GetMapping("/")
-    public String showFormController() {
+    public String showForm() {
         return "dictionary";
     }
-
-
-
     @GetMapping("/dictionary")
-    public String dictionaryController(@RequestParam String english, Model model) {
-        String vn = dictionaryService.findWord(english);
+    public String getDictionary(@RequestParam String english, Model model) {
+        String vn = service.findWord(english);
         model.addAttribute("eng", english);
         model.addAttribute("vn", vn);
-
         return "dictionary";
     }
 

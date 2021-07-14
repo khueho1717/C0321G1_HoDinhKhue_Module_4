@@ -29,9 +29,6 @@ public class DictionaryRepositoryIml implements DictionaryRepository {
         wordMap.put(dictionary7.getWordEng(),dictionary7.getWordViet());
 
     }
-
-
-
     @Override
     public String findWord(String english) {
         String word="khong tim thay tu nay";

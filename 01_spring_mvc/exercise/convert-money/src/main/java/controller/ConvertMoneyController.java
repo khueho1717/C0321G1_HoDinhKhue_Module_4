@@ -1,21 +1,25 @@
 package controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import services.ConvertService;
 
 @Controller
 public class ConvertMoneyController {
+    @Autowired
+    ConvertService convertService;
     @GetMapping("/")
-    public String showcConvertController(){
+    public String showcConvert(){
         return "convert";
     }
 
     @GetMapping("/convert")
-    public String convertController(@RequestParam int usd,Model model){
+    public String getConvert(@RequestParam int usd,Model model){
         double usdConvert=usd;
-        double vnd=usdConvert*23000;
+        double vnd=convertService.getConvert(usd);
         model.addAttribute("usd",usdConvert);
         model.addAttribute("vnd",vnd);
         return "convert";
