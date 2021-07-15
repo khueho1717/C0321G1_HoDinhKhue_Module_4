@@ -18,51 +18,34 @@ public class CalculatorController {
     }
 
     @GetMapping("/addition")
-    public String getCondiment(@RequestParam(name = "action") String action, @RequestParam(name = "firstNum", defaultValue = "0") int firstNum, @RequestParam(name = "lastNum", defaultValue = "0") int lastNum, Model model) {
+    public String getCondiment(@RequestParam(name = "calculation") String calculation,
+                               @RequestParam(name = "firstNum",defaultValue = "0.0",required = false) float firstNum,
+                               @RequestParam(name = "lastNum",defaultValue = "0.0", required = false) float lastNum, Model model) throws Exception {
+
         String message = "yeu cau nhap so vao";
-        if (lastNum == 0 && firstNum == 0) {
+        if (lastNum == 0.0 && firstNum == 0.0) {
             model.addAttribute("message2", message);
             model.addAttribute("message1", message);
-        } else if (lastNum == 0) {
+            return "index";
+        } else if (lastNum == 0 && firstNum != 0) {
+            model.addAttribute("message2", "khong chia duoc cho khong");
+            model.addAttribute("firstNum", firstNum);
+            return "index";
+        } else if (lastNum == 0.0) {
             model.addAttribute("message2", message);
             model.addAttribute("firstNum", firstNum);
-
-        } else if (firstNum == 0) {
+            return "index";
+        } else if (firstNum == 0.0) {
             model.addAttribute("message1", message);
             model.addAttribute("lastNum", lastNum);
-
+            return "index";
         } else {
-
-            switch (action) {
-                case "add":
-                    double result = calculatorService.getAdd(firstNum, lastNum);
-                    model.addAttribute("firstNum", firstNum);
-                    model.addAttribute("lastNum", lastNum);
-                    model.addAttribute("result", result);
-                    break;
-                case "sub":
-                    double result2 = calculatorService.getSub(firstNum, lastNum);
-                    model.addAttribute("firstNum", firstNum);
-                    model.addAttribute("lastNum", lastNum);
-                    model.addAttribute("result", result2);
-                    break;
-                case "mul":
-                    double result3 = calculatorService.getMul(firstNum, lastNum);
-                    model.addAttribute("firstNum", firstNum);
-                    model.addAttribute("lastNum", lastNum);
-                    model.addAttribute("result", result3);
-                    break;
-                case "div":
-                    double result4 = calculatorService.getDiv(firstNum, lastNum);
-                    model.addAttribute("firstNum", firstNum);
-                    model.addAttribute("lastNum", lastNum);
-                    model.addAttribute("result", result4);
-                    break;
-            }
-
-
+            float result = calculatorService.calculator(firstNum, lastNum, calculation);
+            model.addAttribute("firstNum", firstNum);
+            model.addAttribute("lastNum", lastNum);
+            model.addAttribute("result", result);
+            return "index";
         }
-        return "index";
     }
 
 }

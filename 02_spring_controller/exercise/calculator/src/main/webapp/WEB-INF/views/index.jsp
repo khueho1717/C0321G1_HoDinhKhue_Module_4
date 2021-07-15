@@ -18,22 +18,22 @@
     <form action="/addition">
         <div class="form-group">
             <label for="number">First Number:</label>
-            <input type="number" class="form-control" id="number" placeholder="Enter number" name="firstNum" value="${firstNum}">
+            <input type="number" class="form-control" id="number" placeholder="Enter number" name="firstNum" value="0>${firstNum}">
             <c:if test="${message1!=null}">
                 <small class="text-danger">${message1}</small>
             </c:if>
         </div>
         <div class="form-group">
             <label for="number2">Last Number:</label>
-            <input type="number" class="form-control" id="number2" placeholder="Enter number" name="lastNum" value="${lastNum}">
+            <input type="number" class="form-control" id="number2" placeholder="Enter number" name="lastNum" value="0>${lastNum}">
             <c:if test="${message2!=null}">
                 <small class="text-danger">${message2}</small>
             </c:if>
         </div>
-        <button type="submit" class="btn btn-primary" name="action" value="add">ADD</button>
-        <button type="submit" class="btn btn-primary" name="action" value="sub">SUB</button>
-        <button type="submit" class="btn btn-primary" name="action" value="mul">MUL</button>
-        <button type="submit" class="btn btn-primary" name="action" value="div">DIV</button>
+        <button type="submit" class="btn btn-primary" name="calculation" value="add">ADD</button>
+        <button type="submit" class="btn btn-primary" name="calculation" value="sub">SUB</button>
+        <button type="submit" class="btn btn-primary" name="calculation" value="mul">MUL</button>
+        <button type="submit" class="btn btn-primary" name="calculation" value="div">DIV</button>
     </form>
 
     <h4>Result: ${result}</h4>

@@ -18,39 +18,31 @@
     <form action="/condiment">
         <div class="form-check-inline">
             <label class="form-check-label" for="lettuce">
-                <input type="checkbox" class="form-check-input" id="lettuce" name="lettuce" value="lettuce">lettuce
+                <input type="checkbox" class="form-check-input" id="lettuce" name="condiments" value="lettuce">lettuce
             </label>
         </div>
         <div class="form-check-inline">
             <label class="form-check-label" for="mustard">
-                <input type="checkbox" class="form-check-input" id="mustard" name="mustard" value="mustard">mustard
+                <input type="checkbox" class="form-check-input" id="mustard" name="condiments" value="mustard">mustard
             </label>
         </div>
         <div class="form-check-inline">
             <label class="form-check-label" for="tomato">
-                <input type="checkbox" class="form-check-input" id="tomato" name="tomato" value="tomato">tomato
+                <input type="checkbox" class="form-check-input" id="tomato" name="condiments" value="tomato">tomato
             </label>
         </div>
         <div class="form-check-inline">
             <label class="form-check-label" for="sprouts">
-                <input type="checkbox" class="form-check-input" id="sprouts" name="sprouts" value="sprouts">sprouts
+                <input type="checkbox" class="form-check-input" id="sprouts" name="condiments" value="sprouts">sprouts
             </label>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
-    <h3>Sandwich Condiment</h3>
-    <c:if test="${lettuce!=null}">
-        <p class="text-danger">${lettuce}</p>
-    </c:if>
-    <c:if test="${tomato!=null}">
-        <p class="text-danger">${tomato}</p>
-    </c:if>
-    <c:if test="${mustard!=null}">
-        <p class="text-danger">${mustard}</p>
-    </c:if>
-    <c:if test="${sprouts!=null}">
-        <p class="text-danger">${sprouts}</p>
-    </c:if>
+    <h3>Sandwich</h3>
+    <div>
+        <label>Condiments:</label>
+        <c:forEach items="${condiments}" var="spice">${spice} </c:forEach>
+    </div>
 </div>
 </body>
 </html>

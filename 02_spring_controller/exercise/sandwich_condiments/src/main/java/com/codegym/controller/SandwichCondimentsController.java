@@ -13,12 +13,8 @@ public class SandwichCondimentsController {
     }
 
     @GetMapping("/condiment")
-    public String getCondiment(@RequestParam(name = "lettuce", defaultValue = "") String lettuce, @RequestParam(name = "mustard", defaultValue = "") String mustard, @RequestParam(name = "tomato", defaultValue = "") String tomato, @RequestParam(name = "sprouts", defaultValue = "") String sprouts, Model model) {
-        model.addAttribute("lettuce", lettuce);
-        model.addAttribute("mustard", mustard);
-        model.addAttribute("tomato", tomato);
-        model.addAttribute("sprouts", sprouts);
-
+    public String getCondiment(@RequestParam(value = "condiments",required = false) String[] condiments, Model model) {
+        model.addAttribute("condiments", condiments);
         return "index";
     }
 

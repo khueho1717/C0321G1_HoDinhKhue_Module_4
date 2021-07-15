@@ -4,35 +4,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
-    @Override
-    public double getAdd(int fistNum, int lastNum) {
-        double firstNumber=fistNum;
-        double lastNumber=lastNum;
-        double result=firstNumber+lastNumber;
-        return result;
-    }
 
     @Override
-    public double getSub(int fistNum, int lastNum) {
-        double firstNumber=fistNum;
-        double lastNumber=lastNum;
-        double result=firstNumber-lastNumber;
-        return result;
-    }
+    public float calculator(Float firstNumber, Float lastNumber, String calculation)  {
 
-    @Override
-    public double getMul(int fistNum, int lastNum) {
-        double firstNumber=fistNum;
-        double lastNumber=lastNum;
-        double result=firstNumber*lastNumber;
-        return result;
-    }
-
-    @Override
-    public double getDiv(int fistNum, int lastNum) {
-        double firstNumber=fistNum;
-        double lastNumber=lastNum;
-        double result=firstNumber/lastNumber;
+        float result;
+        switch (calculation){
+            case "add":
+                result = firstNumber + lastNumber;
+                break;
+            case "sub":
+                result = firstNumber - lastNumber;
+                break;
+            case "mul":
+                result = firstNumber * lastNumber;
+                break;
+            case "div":
+                    result = firstNumber / lastNumber;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + calculation);
+        }
         return result;
     }
 }
