@@ -12,7 +12,7 @@ public class ConvertMoneyController {
     @Autowired
     ConvertService convertService;
     @GetMapping("/")
-    public String showcConvert(){
+    public String showConvert(){
         return "convert";
     }
 
