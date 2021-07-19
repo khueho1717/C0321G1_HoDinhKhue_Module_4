@@ -18,10 +18,7 @@ public class SaveEmailController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@ModelAttribute("email") Email email, ModelMap model) {
-        model.addAttribute("language", email.getLanguage());
-        model.addAttribute("pageSize", email.getPageSize());
-        model.addAttribute("spamsFilter", email.isSpamsFilter());
-        model.addAttribute("signature", email.getSignature());
+        model.addAttribute("email",email);
         return "info";
     }
 
