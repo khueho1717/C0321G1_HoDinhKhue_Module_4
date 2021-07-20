@@ -10,6 +10,6 @@
         <property name="hibernate.connection.password">12345678</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
-        <mapping class="com.codegym.model.Product"/>
+        <mapping class="com.codegym.model.entity.Product"/>
     </session-factory>
 </hibernate-configuration>

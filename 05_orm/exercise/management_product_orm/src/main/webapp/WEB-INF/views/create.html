@@ -13,7 +13,7 @@
 <div id="form">
     <form th:action="@{/save}" th:object="${product}"
           method="POST" novalidate="novalidate">
-        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{id} " value="2"/>
         <div>
             <label>Name Product</label>
             <input type="text" th:field="*{nameProduct}"/>

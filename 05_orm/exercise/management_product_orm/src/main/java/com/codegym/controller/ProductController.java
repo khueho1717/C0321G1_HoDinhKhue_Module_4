@@ -1,14 +1,13 @@
 package com.codegym.controller;
 
-import com.codegym.model.Product;
-import com.codegym.service.ProductService;
+import com.codegym.model.entity.Product;
+import com.codegym.model.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,8 +28,8 @@ public class ProductController {
         return "/create";
     }
     @PostMapping("/save")
-    public String saveProduct(Product product) {
-        product.setId((int) (Math.random() * 10000));
+    public String saveProduct(@ModelAttribute Product product) {
+        product.setId((int) (Math.random() * 1000));
         productService.save(product);
         return "redirect:/";
     }
@@ -41,7 +40,7 @@ public class ProductController {
     }
     @PostMapping("/update")
     public String updateProduct(Product product) {
-        productService.update(product.getId(), product);
+        productService.update(product);
         return "redirect:/";
     }
     @GetMapping("/{id}/delete")
@@ -51,7 +50,7 @@ public class ProductController {
     }
     @PostMapping("/delete")
     public String delete(Product product, RedirectAttributes redirect) {
-        productService.remove(product.getId());
+        productService.remove(product);
         redirect.addFlashAttribute("success", "Removed product successfully!");
         return "redirect:/";
     }
