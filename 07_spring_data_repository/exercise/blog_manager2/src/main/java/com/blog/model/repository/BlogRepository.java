@@ -9,5 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlogRepository extends PagingAndSortingRepository<Blog, Long> {
+    Page<Blog> findAllByTitleContaining(String title, Pageable pageable);
+
+    Page<Blog> findAllByCategoryId(Long id, Pageable pageable);
 
 }

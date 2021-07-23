@@ -11,7 +11,7 @@ public class Category {
 
     private String name;
 
-    @OneToMany(targetEntity = Blog.class)
+    @OneToMany(mappedBy = "category")
     private List<Blog> blogs;
 
     public Category() {

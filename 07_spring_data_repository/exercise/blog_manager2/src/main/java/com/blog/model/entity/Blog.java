@@ -12,9 +12,10 @@ public class Blog {
     private String title;
     private String summary;
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @Column(name = "date_create", columnDefinition = "DATE")
+    private String dateCreate;
+    @ManyToOne(targetEntity = Category.class)
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
 
     public Category getCategory() {
@@ -26,6 +27,14 @@ public class Blog {
     }
 
     public Blog() {
+    }
+
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
     public Long getId() {

@@ -6,9 +6,7 @@ import com.blog.model.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 public class BlogServiceImpl implements BlogService {
@@ -35,6 +33,21 @@ public class BlogServiceImpl implements BlogService {
         blogRepository.deleteById(id);
     }
 
+
+    @Override
+    public Page<Blog> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Blog> findAllByTitleContaining(String title, Pageable pageable) {
+        return blogRepository.findAllByTitleContaining(title,pageable);
+    }
+
+    @Override
+    public Page<Blog> findAllByCategoryId(Long id, Pageable pageable) {
+        return blogRepository.findAllByCategoryId(id, pageable);
+    }
 
 
 }
