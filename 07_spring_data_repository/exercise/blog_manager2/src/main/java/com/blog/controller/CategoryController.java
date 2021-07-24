@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.awt.print.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private BlogService blogService;
 
     @GetMapping("/categories")
     public ModelAndView listCategories() {
@@ -87,5 +90,14 @@ public class CategoryController {
     public String deleteCategory(@ModelAttribute("category") Category category) {
         categoryService.remove(category.getId());
         return "redirect:categories";
+    }
+    @GetMapping("/view-category/{id}")
+    public ModelAndView viewCategory(@PathVariable("id") Long id){
+        Optional<Category> category = categoryService.findById(id);
+        Iterable<Blog> blogs = blogService.findAllByCategoryId(id);
+        ModelAndView modelAndView = new ModelAndView("/category/view");
+        modelAndView.addObject("category", category.get());
+        modelAndView.addObject("blogs", blogs);
+        return modelAndView;
     }
 }

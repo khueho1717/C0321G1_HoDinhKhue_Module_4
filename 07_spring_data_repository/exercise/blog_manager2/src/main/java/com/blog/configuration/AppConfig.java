@@ -4,7 +4,7 @@ package com.blog.configuration;
 //import com.codegym.cms.repository.ICustomerRepository;
 //import com.codegym.cms.service.CustomerService;
 //import com.codegym.cms.service.ICustomerService;
-import com.blog.formatter.CategoryFormatter;
+
 import com.blog.model.repository.BlogRepository;
 import com.blog.model.service.BlogService;
 import com.blog.model.service.ICategoryService;
@@ -134,8 +134,5 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         return new CategoryService();
         }
 
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new CategoryFormatter(applicationContext.getBean(CategoryService.class)));
-    }
+
 }

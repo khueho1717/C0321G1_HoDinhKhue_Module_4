@@ -49,5 +49,10 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.findAllByCategoryId(id, pageable);
     }
 
+    @Override
+    public Iterable<Blog> findAllByCategoryId(Long id) {
+        return blogRepository.findAllByCategoryId(id);
+    }
+
 
 }

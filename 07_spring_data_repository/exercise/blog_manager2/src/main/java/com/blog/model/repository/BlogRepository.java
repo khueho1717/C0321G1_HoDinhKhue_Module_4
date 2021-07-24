@@ -13,4 +13,7 @@ public interface BlogRepository extends PagingAndSortingRepository<Blog, Long> {
 
     Page<Blog> findAllByCategoryId(Long id, Pageable pageable);
 
+    Iterable<Blog> findAllByCategoryId(Long id);
+
+
 }
