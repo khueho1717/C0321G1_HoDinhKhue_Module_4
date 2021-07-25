@@ -49,8 +49,6 @@ public class BlogController {
     public ModelAndView listBlogs(@RequestParam("search") Optional<String> search,
                                   @RequestParam("category") Optional<Long> category,
                                   @PageableDefault(value = 5,sort ="dateCreate",direction = Sort.Direction.ASC) Pageable pageable) {
-//        Iterable<Blog> blogs = blogService.findAll();
-//        Page<Blog> blogs=blogService.findAll(pageable);
         Page<Blog> blogs;
         if(search.isPresent()){
             blogs = blogService.findAllByTitleContaining(search.get(), pageable);
