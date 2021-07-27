@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${message != null}">
+    <h3 th:text="${message}"></h3>
+</div>
+<!--<a href="/create-blog">Create new blog</a>-->
+<h1>Books</h1>
+
+<table border="1">
+    <tr>
+        <th>Name Book</th>
+        <th>Id Book</th>
+        <th>Summary</th>
+        <th>Author</th>
+        <th>Amount</th>
+        <th>Detail</th>
+    </tr>
+    <!--/*@thymesVar id="books" type="com"*/-->
+    
+    <th:block th:each="book : ${books}">
+        <tr>
+            <td th:text="${book.id}"></td>
+            <td th:text="${book.nameBook}"></td>
+            <td th:text="${book.summary}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.amount}"></td>
+            <td><!--/*@thymesVar id="id" type="com"*/-->
+            <a th:href="@{/detail-book/__${book.id}__ }">Detail Blog</a></td>
+        </tr>
+    </th:block>
+</table>
+
+</body>
+</html>

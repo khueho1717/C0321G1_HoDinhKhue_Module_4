@@ -54,5 +54,10 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.findAllByCategoryId(id);
     }
 
+    @Override
+    public Page<Blog> findTitleAndCateId(String search, Pageable pageable) {
+        return blogRepository.findTitleAndCateId(search,pageable);
+    }
+
 
 }

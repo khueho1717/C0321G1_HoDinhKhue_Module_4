@@ -6,7 +6,7 @@
 </head>
 <body>
 <form>
-      Choise Category:
+      Choice Category:
     <select name="search">
         <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
     </select>

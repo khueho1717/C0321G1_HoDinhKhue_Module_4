@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.management.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,13 +48,13 @@ public class BlogController {
 
     @GetMapping("/blogs")
     public ModelAndView listBlogs(@RequestParam("search") Optional<String> search,
-                                  @RequestParam("category") Optional<Long> category,
+//                                  @RequestParam("category") Optional<Long> category,
                                   @PageableDefault(value = 5,sort ="dateCreate",direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Blog> blogs;
         if(search.isPresent()){
-            blogs = blogService.findAllByTitleContaining(search.get(), pageable);
-        }else if (category.isPresent()){
-            blogs=blogService.findAllByCategoryId(category.get(),pageable);
+//            blogs = blogService.findAllByTitleContaining(search.get(), pageable);
+            blogs=blogService.findTitleAndCateId(search.get(),pageable);
+
         }else {
             blogs = blogService.findAll(pageable);
         }

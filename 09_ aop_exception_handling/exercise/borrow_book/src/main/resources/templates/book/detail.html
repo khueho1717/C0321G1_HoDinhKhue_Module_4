@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--<a href="/create-blog">Create new blog</a>-->
+<h1>Books</h1>
+
+<table border="1">
+    <tr>
+        <th>Name Book</th>
+        <th>Id Book</th>
+        <th>Summary</th>
+        <th>Author</th>
+        <th>Amount</th>
+        <th>Detail</th>
+        <th>Roll</th>
+    </tr>
+    <tr>
+<!--/*@thymesVar id="id" type="com"*/-->
+<td th:text="${book.id}"></td>
+        <td th:text="${book.nameBook}"></td>
+        <td th:text="${book.summary}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.amount}"></td>
+        <td>
+            <a th:href="@{/borrow-book/__${book.id}__ }">Borrow</a>
+        </td>
+        <td>
+            <a th:href="@{/roll-book/__${book.id}__ }">Roll</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

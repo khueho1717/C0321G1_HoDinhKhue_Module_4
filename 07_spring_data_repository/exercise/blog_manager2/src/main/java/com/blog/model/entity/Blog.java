@@ -14,7 +14,7 @@ public class Blog {
     private String content;
     @Column(name = "date_create", columnDefinition = "DATE")
     private String dateCreate;
-    @ManyToOne(targetEntity = Category.class)
+    @ManyToOne
     @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
 

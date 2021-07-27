@@ -19,7 +19,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @PostMapping("/validateUser")
+    @PostMapping("/")
     public ModelAndView checkValidation(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             return new ModelAndView("/index");
