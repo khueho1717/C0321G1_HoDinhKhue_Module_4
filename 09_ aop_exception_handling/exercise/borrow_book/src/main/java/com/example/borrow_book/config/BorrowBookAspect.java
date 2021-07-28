@@ -16,16 +16,16 @@ public class BorrowBookAspect {
     int count = 0;
     int countBorrow = 0;
 
-    @Pointcut("within(com.example.borrow_book.controler.BorrowBookController*)")
+    @Pointcut("within(com.example.borrow_book.controller.BorrowBookController*)")
     public void actionPointcut() {
 
     }
 
-    @Pointcut("execution(public String com.example.borrow_book.controler.BorrowBookController.borrowBook(..)))")
+    @Pointcut("execution(public String com.example.borrow_book.controller.BorrowBookController.borrowBook(..)))")
     public void borrowPointcut() {
     }
 
-    @Pointcut("execution(public String com.example.borrow_book.controler.BorrowBookController.rollBook(..))")
+    @Pointcut("execution(public String com.example.borrow_book.controller.BorrowBookController.rollBook(..))")
     public void rollPointcut() {
     }
 
