@@ -15,8 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api")
+@Controller
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
@@ -24,15 +23,11 @@ public class CategoryController {
     private BlogService blogService;
 
     @GetMapping("/categories")
-    public ResponseEntity<Iterable<Category>> listCategories() {
-        List<Category> categories = (List<Category>) categoryService.findAll();
-//        ModelAndView modelAndView = new ModelAndView("/category/list");
-//        modelAndView.addObject("categories", categories);
-//        return modelAndView;
-        if (categories.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(categories,HttpStatus.OK);
+    public ModelAndView listCategories() {
+        Iterable<Category> categories = categoryService.findAll();
+        ModelAndView modelAndView = new ModelAndView("/category/list");
+        modelAndView.addObject("categories", categories);
+        return modelAndView;
     }
 
     @GetMapping("/create-category")
@@ -95,22 +90,15 @@ public class CategoryController {
         return "redirect:categories";
     }
 
-//    @GetMapping("/view-category/{id}")
-//    public ModelAndView viewCategory(@PathVariable("id") Long id) {
-//        Optional<Category> category = categoryService.findById(id);
-//        Iterable<Blog> blogs = blogService.findAllByCategoryId(id);
-//        ModelAndView modelAndView = new ModelAndView("/category/view");
-//        modelAndView.addObject("category", category.get());
-//        modelAndView.addObject("blogs", blogs);
-//        return modelAndView;
-//    }
-
     @GetMapping("/view-category/{id}")
-    public ResponseEntity<Iterable<Blog>> viewCategory(@PathVariable("id") Long id) {
-        List<Blog> blogs = (List<Blog>) blogService.findAllByCategoryId(id);
-        if (blogs.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(blogs,HttpStatus.OK);
+    public ModelAndView viewCategory(@PathVariable("id") Long id) {
+        Optional<Category> category = categoryService.findById(id);
+        Iterable<Blog> blogs = blogService.findAllByCategoryId(id);
+        ModelAndView modelAndView = new ModelAndView("/category/view");
+        modelAndView.addObject("category", category.get());
+        modelAndView.addObject("blogs", blogs);
+        return modelAndView;
     }
+
+
 }

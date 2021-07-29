@@ -15,22 +15,26 @@ import java.util.Optional;
 @Controller
 @SessionAttributes("cart")
 public class ProductController {
+
     @Autowired
     private IProductService productService;
+
     @ModelAttribute("cart")
     public Cart setupCart() {
         return new Cart();
     }
+
     @GetMapping("/shop")
     public ModelAndView showShop() {
         ModelAndView modelAndView = new ModelAndView("/shop");
         modelAndView.addObject("products", productService.findAll());
         return modelAndView;
     }
+
     @GetMapping("/show/{id}")
     public ModelAndView showProduct(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("/show");
-        Optional<Product> product=productService.findById(id);
+        Optional<Product> product = productService.findById(id);
         modelAndView.addObject("product", product.get());
         return modelAndView;
     }
@@ -45,17 +49,16 @@ public class ProductController {
             cart.addProduct(productOptional.get());
             return "redirect:/shopping-cart";
         }
-        if (action.equals("roll")){
+        if (action.equals("roll")) {
             cart.divProduct(productOptional.get());
             return "redirect:/shopping-cart";
         }
-        if(action.equals("remove")){
+        if (action.equals("remove")) {
             cart.removeProduct(productOptional.get());
             return "redirect:/shopping-cart";
         }
-        model.addAttribute("product",productOptional.get());
+        model.addAttribute("product", productOptional.get());
         cart.addProduct(productOptional.get());
         return "show";
     }
-
 }

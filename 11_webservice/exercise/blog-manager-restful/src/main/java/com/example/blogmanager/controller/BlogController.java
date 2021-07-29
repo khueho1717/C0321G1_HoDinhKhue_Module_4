@@ -20,16 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api")
+@Controller
 public class BlogController {
     @Autowired
     private BlogService blogService;
+
     @Autowired
     private ICategoryService categoryService;
 
-    @Autowired
-    private ICategoryService iCategoryService;
 
     @GetMapping("/create-blog")
     public ModelAndView showCreateForm() {
@@ -49,34 +47,27 @@ public class BlogController {
         return modelAndView;
     }
 
-//    @GetMapping("/blogs")
-//    public ModelAndView listBlogs(@RequestParam(value = "search",required = false) String search,
-//                                  @PageableDefault(value = 3) Pageable pageable) {
-//        Page<Blog> blogs;
-//        if(search!=null){
-////            blogs=blogService.findAllByTitleContaining(search,pageable);
-//            blogs=blogService.findTitleAndCateId(search,pageable);
-//            ModelAndView modelAndView =new ModelAndView();
-//            modelAndView.addObject("search",search);
-//
-//        }else {
-//            blogs = blogService.findAll(pageable);
-//        }
-//        ModelAndView modelAndView = new ModelAndView("/blog/list");
-//        modelAndView.addObject("search",search);
-//        modelAndView.addObject("categories",categoryService.findAll());
-//        modelAndView.addObject("blogs", blogs);
-//        return modelAndView;
-//    }
-
     @GetMapping("/blogs")
-    public ResponseEntity<Iterable<Blog>> listBlogs() {
-        List<Blog> blogs = (List<Blog>) blogService.findAll();
-        if (blogs.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ModelAndView listBlogs(@RequestParam(value = "search",required = false) String search,
+                                  @PageableDefault(value = 3) Pageable pageable) {
+        Page<Blog> blogs;
+        if(search!=null){
+//            blogs=blogService.findAllByTitleContaining(search,pageable);
+            blogs=blogService.findTitleAndCateId(search,pageable);
+            ModelAndView modelAndView =new ModelAndView();
+            modelAndView.addObject("search",search);
+
+        }else {
+            blogs = blogService.findAll(pageable);
         }
-        return new ResponseEntity<>(blogs, HttpStatus.OK);
+        ModelAndView modelAndView = new ModelAndView("/blog/list");
+        modelAndView.addObject("search",search);
+        modelAndView.addObject("categories",categoryService.findAll());
+        modelAndView.addObject("blogs", blogs);
+        return modelAndView;
     }
+
+
 
     @GetMapping("/edit-blog/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) {
@@ -102,26 +93,19 @@ public class BlogController {
         return modelAndView;
     }
 
-    //    @GetMapping("/view-blog/{id}")
-//    public ModelAndView showBlog(@PathVariable Long id) {
-//        Optional<Blog> blog = blogService.findById(id);
-//        if (blog.isPresent()) {
-//            ModelAndView modelAndView = new ModelAndView("/blog/view");
-//            modelAndView.addObject("blog", blog.get());
-//            return modelAndView;
-//        } else {
-//            ModelAndView modelAndView = new ModelAndView("/error.404");
-//            return modelAndView;
-//        }
-//    }
-    @GetMapping("/view-blog/{id}")
-    public ResponseEntity<Blog> showBlog(@PathVariable Long id) {
+        @GetMapping("/view-blog/{id}")
+    public ModelAndView showBlog(@PathVariable Long id) {
         Optional<Blog> blog = blogService.findById(id);
-        if (!blog.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (blog.isPresent()) {
+            ModelAndView modelAndView = new ModelAndView("/blog/view");
+            modelAndView.addObject("blog", blog.get());
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/error.404");
+            return modelAndView;
         }
-        return new ResponseEntity<>(blog.get(), HttpStatus.OK);
     }
+
 
     @GetMapping("/delete-blog/{id}")
     public ModelAndView showDeleteForm(@PathVariable Long id) {
