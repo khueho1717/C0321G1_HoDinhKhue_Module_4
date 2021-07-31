@@ -1,62 +1,59 @@
 package com.manager_phone.controller;
 
+
 import com.manager_phone.model.entity.SmartPhone;
 import com.manager_phone.model.service.ISmartphoneService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/smartphones")
+@CrossOrigin
 public class SmartphoneController {
-
     @Autowired
-    ISmartphoneService smartphoneService;
+    private ISmartphoneService smartphoneService;
 
     @PostMapping
-    public ResponseEntity<SmartPhone> createSmartphone(@RequestBody SmartPhone smartPhone){
-        if (smartPhone.getId()==null){
-            return new ResponseEntity<>(smartphoneService.save(smartPhone), HttpStatus.CREATED);
+    public ResponseEntity<SmartPhone> createSmartphone(@RequestBody SmartPhone smartphone) {
+        if (smartphone.getId()==null){
+            smartphoneService.save(smartphone);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
-        return new ResponseEntity<>(smartphoneService.save(smartPhone), HttpStatus.OK);
-
-    }
-
-    @GetMapping("/list")
-    public ModelAndView getAllSmartphonePage(){
-        ModelAndView modelAndView=new ModelAndView("/phones/list");
-        modelAndView.addObject("smartphones",smartphoneService.findAll());
-        return modelAndView;
+        return new ResponseEntity<>(smartphoneService.save(smartphone), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<Iterable<SmartPhone>> allPhones() {
         return new ResponseEntity<>(smartphoneService.findAll(), HttpStatus.OK);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<SmartPhone> deleteSmartphone(@PathVariable Long id) {
-        Optional<SmartPhone> smartphoneOptional = smartphoneService.findById(id);
+    @DeleteMapping("/{phoneId}")
+    public ResponseEntity<SmartPhone> deleteSmartphone(@PathVariable Long phoneId) {
+        Optional<SmartPhone> smartphoneOptional = smartphoneService.findById(phoneId);
         if (!smartphoneOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        smartphoneService.remove(id);
+        smartphoneService.remove(phoneId);
         return new ResponseEntity<>(smartphoneOptional.get(), HttpStatus.NO_CONTENT);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<SmartPhone> loadFormEdit(@PathVariable Long id) {
-        Optional<SmartPhone> smartPhone=smartphoneService.findById(id);
-        if (!smartPhone.isPresent()){
+
+    @GetMapping("/{phoneId}")
+    public ResponseEntity<SmartPhone> editSmartphonePage(@PathVariable Long phoneId) {
+        Optional<SmartPhone> smartphone = smartphoneService.findById(phoneId);
+        if (!smartphone.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(smartPhone.get(), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(smartphone.get(), HttpStatus.OK);
+
     }
 
+//    @PutMapping
+//    public ResponseEntity<SmartPhone> editPhone(@RequestBody SmartPhone smartphone){
+//        return new ResponseEntity<>(smartphoneService.save(smartphone), HttpStatus.OK);
+//    }
 }
