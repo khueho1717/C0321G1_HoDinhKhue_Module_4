@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="message" style="display: none">
+    <strong>Not Found</strong>
+</div>
+<input type="text" id="search" placeholder="Search by Title">
+<table border="1">
+    <tr>
+        <th>Title Blog</th>
+        <th>Summary</th>
+        <th>Content</th>
+        <th>Date create</th>
+    </tr>
+</table>
+<button id="downloadMore" type="button">tai them</button>
+<script>
+    let page = 0;
+    let pageSearch = 0;
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://localhost:8080/api/blogs?page=" + page,
+            type: "GET",
+            data: "JSON",
+            success: function (data) {
+                console.log(data.content)
+                let listBlog = [];
+                for (let i = 0; i < data.content.length; i++) {
+                    listBlog.push('<tr>');
+                    listBlog.push('<td>' + data.content[i].title + '</td>');
+                    listBlog.push('<td>' + data.content[i].summary + '</td>');
+                    listBlog.push('<td>' + data.content[i].content + '</td>');
+                    listBlog.push('<td>' + data.content[i].dateCreate + '</td>');
+                    listBlog.push('</tr>');
+                }
+                $('table').append($(listBlog.join('')));
+            }
+        })
+        $("#downloadMore").click(function () {
+            page++;
+            $.ajax({
+                url: "http://localhost:8080/api/blogs?page=" + page,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    let listBlog = [];
+                    for (let i = 0; i < data.content.length; i++) {
+                        listBlog.push('<tr>');
+                        listBlog.push('<td>' + data.content[i].title + '</td>');
+                        listBlog.push('<td>' + data.content[i].summary + '</td>');
+                        listBlog.push('<td>' + data.content[i].content + '</td>');
+                        listBlog.push('<td>' + data.content[i].dateCreate + '</td>');
+                        listBlog.push('</tr>');
+                    }
+                    $('table').append($(listBlog.join('')));
+                }
+            })
+        })
+
+        $("#search").keyup(function () {
+            let value = $(this).val();
+            $('table').empty();
+
+            $.ajax({
+                url: "http://localhost:8080/api/search/" + value + "?page=" + pageSearch,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    if (typeof data.content === "undefined" || !data.content.length) {
+                        // document.getElementById('message').innerText="khong tim thay";
+                        $('.message').css("display", "show");
+                    } else {
+                        $('.message').css("display", "none");
+                        let listBlog = [];
+                        for (let i = 0; i < data.content.length; i++) {
+                            listBlog.push('<tr>');
+                            listBlog.push('<td>' + data.content[i].title + '</td>');
+                            listBlog.push('<td>' + data.content[i].summary + '</td>');
+                            listBlog.push('<td>' + data.content[i].content + '</td>');
+                            listBlog.push('<td>' + data.content[i].dateCreate + '</td>');
+                            listBlog.push('</tr>');
+                        }
+                        $('table').append($(listBlog.join('')));
+
+                    }
+
+                }
+            })
+
+        })
+
+
+    })
+</script>
+</body>
+</html>
