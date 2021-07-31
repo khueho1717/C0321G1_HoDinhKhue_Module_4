@@ -51,9 +51,5 @@ public class SmartphoneController {
         return new ResponseEntity<>(smartphone.get(), HttpStatus.OK);
 
     }
-
-//    @PutMapping
-//    public ResponseEntity<SmartPhone> editPhone(@RequestBody SmartPhone smartphone){
-//        return new ResponseEntity<>(smartphoneService.save(smartphone), HttpStatus.OK);
-//    }
+    
 }
