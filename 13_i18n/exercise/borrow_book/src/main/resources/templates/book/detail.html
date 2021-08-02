@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{error.title}" ></title>
+</head>
+<body>
+
+<h1 th:text="#{table.heading}"></h1>
+Language: <a href="?lang=en">English</a> | <a href="?lang=ger">German</a>
+<table border="1">
+    <tr>
+        <th th:text="#{table.th.name}"></th>
+        <th th:text="#{table.th.id}"></th>
+        <th th:text="#{table.th.summary}"></th>
+        <th th:text="#{table.th.name}"></th>
+        <th th:text="#{table.th.amount}"></th>
+        <th th:text="#{table.th.borrow}"></th>
+        <th th:text="#{table.th.roll}"></th>
+    </tr>
+    <tr>
+<!--/*@thymesVar id="id" type="com"*/-->
+<td th:text="${book.id}"></td>
+        <td th:text="${book.nameBook}"></td>
+        <td th:text="${book.summary}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.amount}"></td>
+        <td>
+            <a th:href="@{/borrow-book/__${book.id}__ }" th:text="#{table.th.borrow}">Borrow</a>
+        </td>
+        <td>
+            <a th:href="@{/roll-book/__${book.id}__ }" th:text="#{table.th.roll}">Roll</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

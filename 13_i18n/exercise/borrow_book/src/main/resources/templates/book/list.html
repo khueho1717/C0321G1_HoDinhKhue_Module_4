@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{error.title}" ></title>
+</head>
+<body>
+<div th:if="${message != null}">
+    <h3 th:text="${message}"></h3>
+</div>
+<!--<a href="/create-blog">Create new blog</a>-->
+<h1 th:text="#{table.heading}"></h1>
+Language: <a href="?lang=en">English</a> | <a href="?lang=ger">German</a>
+<table border="1">
+    <tr>
+        <th th:text="#{table.th.name}"></th>
+        <th th:text="#{table.th.id}"></th>
+        <th th:text="#{table.th.summary}"></th>
+        <th th:text="#{table.th.name}"></th>
+        <th th:text="#{table.th.amount}"></th>
+        <th th:text="#{table.th.detail}"></th>
+    </tr>
+    <!--/*@thymesVar id="books" type="com"*/-->
+    
+    <th:block th:each="book : ${books}">
+        <tr>
+            <td th:text="${book.id}"></td>
+            <td th:text="${book.nameBook}"></td>
+            <td th:text="${book.summary}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.amount}"></td>
+            <td><!--/*@thymesVar id="id" type="com"*/-->
+            <a th:href="@{/detail-book/__${book.id}__ }" th:text="#{table.th.detail}"></a></td>
+        </tr>
+    </th:block>
+</table>
+
+</body>
+</html>
