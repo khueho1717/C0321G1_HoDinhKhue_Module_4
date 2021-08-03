@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+      Choice Category:
+    <select name="search">
+        <option th:each="c : ${categories}" th:value="${c.name}" th:text="${c.name}"></option>
+    </select>
+    <input type="submit" value="Category"/>
+</form>
+
+<a href="/create-blog">Create new blog</a>
+<h1>Blogs</h1>
+<form >
+    Search by Title name:
+    <input name="search" type="text"/>
+    <input type="submit" value="Search"/>
+</form>
+<table border="1">
+    <tr>
+        <th>Title Blog</th>
+        <th>Summary</th>
+        <th>Date create</th>
+        <th>Category</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="blog : ${blogs}">
+        <tr>
+            <td ><a th:href="@{/view-blog/__${blog.id}__ }" th:text="${blog.title}"></a></td>
+            <td th:text="${blog.summary}"></td>
+            <td th:text="${blog.dateCreate}"></td>
+            <td th:text="${blog.category.name}"></td>
+            <td><a th:href="@{/edit-blog/__${blog.id}__ }">Edit Blog</a></td>
+            <td><a th:href="@{/delete-blog/__${blog.id}__ }">Delete Blog</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <div th:if="${search == null}">
+        <a th:href="@{/blogs(page=${blogs.number - 1})}" th:if="${blogs.hasPrevious()}">Previous</a>
+        <span th:text="${blogs.number + 1}"></span>/<span th:text="${blogs.totalPages}"></span>
+        <a th:href="@{/blogs(page=${blogs.number + 1})}" th:if="${blogs.hasNext()}">Next</a>
+    </div>
+    <div th:if="${search != null}">
+        <a th:href="@{/blogs(search=${search},page=${blogs.number - 1})}"
+           th:if="${blogs.hasPrevious()}">Previous</a>
+        <span th:text="${blogs.number + 1}"></span>/<span th:text="${blogs.totalPages}"></span>
+        <a th:href="@{/blogs(search=${search},page=${blogs.number + 1})}"
+           th:if="${blogs.hasNext()}">Next</a>
+    </div>
+</div>
+</body>
+</html>
