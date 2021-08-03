@@ -11,21 +11,29 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/blogs")
 public class BlogController {
+
     @Autowired
     private BlogService blogService;
+
     @Autowired
     private ICategoryService categoryService;
 
     @Autowired
     private ICategoryService iCategoryService;
+
+    @GetMapping("/login")
+    public String loginPage() {
+
+        return "/blog/loginPage";
+    }
 
     @GetMapping("/create-blog")
     public ModelAndView showCreateForm() {
@@ -45,7 +53,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @GetMapping("/")
+    @GetMapping("/blogs")
     public ModelAndView listBlogs(@RequestParam(value = "search",required = false) String search,
                                   @PageableDefault(value = 3) Pageable pageable) {
         Page<Blog> blogs;
