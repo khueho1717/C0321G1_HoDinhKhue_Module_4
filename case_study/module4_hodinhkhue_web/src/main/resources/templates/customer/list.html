@@ -46,7 +46,7 @@
             <th:block th:each="customer,status : ${customers}">
                 <tr>
                     <td th:text="${status.count}"></td>
-                    <td th:text="${customer.customerId}"></td>
+                    <td th:text="${customer.customerCode}"></td>
                     <td ><a th:href="@{/customers/view-customer/__${customer.customerId}__ }" th:text="${customer.customerName}"></a></td>
                     <td th:text="${customer.customerBirthday}"></td>
                     <td th:text="${customer.customerEmail}"></td>

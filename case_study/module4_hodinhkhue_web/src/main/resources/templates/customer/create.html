@@ -3,7 +3,7 @@
 <head th:replace="/layout/layout::head"></head>
 <body>
 <div th:insert="/layout/layout::nav"></div>
-<div class="row" >
+<div class="row">
     <div class="col-2 bg-info text-center">
         <nav class="nav flex-column ">
             <a class="nav-link active" href="#">Active</a>
@@ -23,37 +23,56 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="exampleInputEmail1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" th:field="*{customerName}">
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{customerName}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerCode')}"
+                          th:errors="*{customerName}"></span>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="exampleInputEmail">Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email" th:field="*{customerEmail}">
+                    <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{customerEmail}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerEmail')}"
+                          th:errors="*{customerEmail}"></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="exampleInputPassword1">Brithday</label>
-                    <input type="date" class="form-control" id="exampleInputPassword1" placeholder="Password" th:field="*{customerBirthday}">
+                    <input type="date" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                           th:field="*{customerBirthday}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerBirthday')}"
+                          th:errors="*{customerBirthday}"></span>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputCity3">Address</label>
                     <input type="text" class="form-control" id="inputCity3" th:field="*{customerAddress}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerAddress')}"
+                          th:errors="*{customerAddress}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputCity7">Customer Code</label>
+                    <input type="text" class="form-control" id="inputCity7" th:field="*{customerCode}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerCode')}"
+                          th:errors="*{customerCode}"></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="exampleFormControlSelect4">Customer Type</label>
-                    <select class="form-control" id="exampleFormControlSelect4"th:field="*{customerType}">
+                    <select class="form-control" id="exampleFormControlSelect4" th:field="*{customerType}">
                         <option th:each="c : ${customerType}" th:value="${c.id}" th:text="${c.typeName}"></option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputCity2">ID Cart</label>
                     <input type="text" class="form-control" id="inputCity2" th:field="*{customerIdCard}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerIdCard')}"
+                          th:errors="*{customerIdCard}"></span>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="exampleFormControlSelect1">Gender</label>
-                    <select class="form-control" id="exampleFormControlSelect1"th:field="*{customerGender}">
+                    <select class="form-control" id="exampleFormControlSelect1" th:field="*{customerGender}">
                         <option value="1">Male</option>
                         <option value="2">Female</option>
                         <option value="0">LGBT</option>
@@ -62,6 +81,8 @@
                 <div class="form-group col-md-2">
                     <label for="inputZip">Number Phone</label>
                     <input type="text" class="form-control" id="inputZip" th:field="*{customerPhone}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerPhone')}"
+                          th:errors="*{customerPhone}"></span>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>

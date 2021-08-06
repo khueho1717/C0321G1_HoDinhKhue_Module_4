@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-2 bg-info text-center">
+        <nav class="nav flex-column ">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </div>
+    <div class="col-10 m-auto p-5">
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <form th:object="${service}" th:action="@{/services/create-service}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Service Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            th:field="*{serviceName}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('serviceName')}"
+                          th:errors="*{serviceName}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="exampleInputEmail5">Code Service</label>
+                    <input type="text" class="form-control" id="exampleInputEmail5" aria-describedby="emailHelp"
+                            th:field="*{serviceCode}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('serviceCode')}"
+                          th:errors="*{serviceCode}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="exampleInputEmail">Area</label>
+                    <input type="number" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{serviceArea}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('serviceArea')}"
+                          th:errors="*{serviceArea}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail8">Cost</label>
+                    <input type="number" class="form-control" id="exampleInputEmail8" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{serviceCost}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('serviceCost')}"
+                          th:errors="*{serviceCost}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Max People</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                           th:field="*{serviceMaxPeople}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('serviceMaxPeople')}"
+                          th:errors="*{serviceMaxPeople}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect4">Rent Type</label>
+                    <select class="form-control" id="exampleFormControlSelect4" th:field="*{rentType}">
+                        <option th:each="rent : ${rentTypes}" th:value="${rent.rentTypeId}" th:text="${rent.rentTypeName}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect7">Service Type</label>
+                    <select class="form-control" id="exampleFormControlSelect7" th:field="*{serviceType}">
+                        <option th:each="s : ${serviceTypes}" th:value="${s.serviceTypeId}" th:text="${s.serviceTypeName}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword11">Standard Room</label>
+                    <input type="text" class="form-control" id="exampleInputPassword11"
+                           th:field="*{standardRoom}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('standardRoom')}"
+                          th:errors="*{standardRoom}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputCity2">Desciption</label>
+                    <input type="text" class="form-control" id="inputCity2" th:field="*{desciptionOtherConvenience}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('desciptionOtherConvenience')}"
+                          th:errors="*{desciptionOtherConvenience}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputCity22">Pool Area</label>
+                    <input type="number" class="form-control" id="inputCity22" th:field="*{poolArea}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('poolArea')}"
+                          th:errors="*{poolArea}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Number Of Floor</label>
+                    <input type="number" class="form-control" id="inputZip" th:field="*{numberOfFloors}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('numberOfFloors')}"
+                          th:errors="*{numberOfFloors}"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Service</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>
