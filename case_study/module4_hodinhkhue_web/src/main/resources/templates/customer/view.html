@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-2 bg-info text-center">
+        <nav class="nav flex-column ">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </div>
+    <div class="col-10 text-center p-5">
+
+        <table class="table table-striped">
+            <tr>
+                <th>Field</th>
+                <th>Content</th>
+            </tr>
+            <tr>
+                <td>Customer Code:</td>
+                <td th:text="${customer.customerId}"></td>
+            </tr>
+            <tr>
+                <td>Customer Type:</td>
+                <td th:text="${customer.customerType.typeName}"></td>
+            </tr>
+            <tr>
+                <td>Customer Name:</td>
+                <td th:text="${customer.customerName}"></td>
+            </tr>
+            <tr>
+                <td>Customer Birthday:</td>
+                <td th:text="${customer.customerBirthday}"></td>
+            </tr>
+            <tr>
+                <td>Customer Gender:</td>
+                <td th:if="${customer.customerGender==1}" th:text="Male"></td>
+                <td th:if="${customer.customerGender==2}" th:text="Female"></td>
+                <td th:if="${customer.customerGender==0}" th:text="LGBT"></td>
+            </tr>
+            <tr>
+                <td>Customer Id Card:</td>
+                <td th:text="${customer.customerIdCard}"></td>
+            </tr>
+            <tr>
+                <td>Customer Phone:</td>
+                <td th:text="${customer.customerPhone}"></td>
+            </tr>
+            <tr>
+                <td>Customer Email:</td>
+                <td th:text="${customer.customerEmail}"></td>
+            </tr>
+            <tr>
+                <td>Customer Address:</td>
+                <td th:text="${customer.customerAddress}"></td>
+            </tr>
+        </table>
+        <hr>
+        <p class="mb-0">
+            <a href="/customers">
+                <button type="button" class="btn btn-warning m-2">Back to List Customer</button>
+            </a>
+        </p>
+    </div>
+</div>
+<form action="/customers/delete-customer">
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Customer </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <p>Do you really want to delete.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--Modal-->
+<script>
+    function deleteCustomer(id) {
+        document.getElementById('id').value = id;
+    }
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

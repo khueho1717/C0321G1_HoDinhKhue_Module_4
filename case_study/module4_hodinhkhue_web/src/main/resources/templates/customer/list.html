@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-2 bg-info text-center">
+        <nav class="nav flex-column ">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </div>
+    <div class="col-10 text-center p-5">
+            <form class="form-inline float-right mb-3">
+                <p class="mb-0 float-left ">
+                    <a href="/customers/create-customer">
+                        <button type="button" class="btn btn-warning m-2">Create Customer</button>
+                    </a>
+                </p>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+
+
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Birthday</th>
+                <th scope="col">Email</th>
+                <th scope="col">Type</th>
+                <th scope="col">Address</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Id Card</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="customer,status : ${customers}">
+                <tr>
+                    <td th:text="${status.count}"></td>
+                    <td th:text="${customer.customerId}"></td>
+                    <td ><a th:href="@{/customers/view-customer/__${customer.customerId}__ }" th:text="${customer.customerName}"></a></td>
+                    <td th:text="${customer.customerBirthday}"></td>
+                    <td th:text="${customer.customerEmail}"></td>
+                    <td th:text="${customer.customerType.typeName}"></td>
+                    <td th:text="${customer.customerAddress}"></td>
+                    <td th:if="${customer.customerGender == 1}" th:text="Male"></td>
+                    <td th:if="${customer.customerGender == 2}" th:text="Female"></td>
+                    <td th:if="${customer.customerGender == 0}" th:text="LGBT"></td>
+                    <td th:text="${customer.customerIdCard}"></td>
+                    <td th:text="${customer.customerPhone}"></td>
+                    <td><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </a></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#exampleModal" th:onclick="|deleteCustomer(${customer.customerId})|">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+        <div>
+            <div th:if="${search == null}">
+                <a th:href="@{/customers(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
+                <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
+                <a th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+            </div>
+            <div th:if="${search != null}">
+                <a th:href="@{/customers(search=${search},page=${customers.number - 1})}"
+                   th:if="${customers.hasPrevious()}">Previous</a>
+                <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
+                <a th:href="@{/customers(search=${search},page=${customers.number + 1})}"
+                   th:if="${customers.hasNext()}">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+<form action="/customers/delete-customer">
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Customer </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <p>Do you really want to delete.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--Modal-->
+<script>
+    function deleteCustomer(id) {
+        document.getElementById('id').value = id;
+    }
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>
