@@ -63,6 +63,7 @@ public class CustomerController {
         }else {
             model.addAttribute("customer", customer);
             model.addAttribute("customerType", customerTypeService.findAll());
+            model.addAttribute("messageFails", "Customer create failure");
             return "/customer/create";
         }
     }
@@ -94,6 +95,7 @@ public class CustomerController {
         }else {
             model.addAttribute("customer", customer);
             model.addAttribute("customerType", customerTypeService.findAll());
+            model.addAttribute("messageFails", "Customer update failure");
             return "/customer/edit";
         }
     }

@@ -79,6 +79,8 @@ public class EmployeeController {
             model.addAttribute("position", positionService.findAll());
             model.addAttribute("division", divisionService.findAll());
             model.addAttribute("educationDegree", educationDegreeService.findAll());
+            model.addAttribute("messageFails", "Employee create failure");
+
             return "/employee/create";
         }
     }
@@ -122,6 +124,7 @@ public class EmployeeController {
            model.addAttribute("position", positionService.findAll());
            model.addAttribute("division", divisionService.findAll());
            model.addAttribute("educationDegree", educationDegreeService.findAll());
+           model.addAttribute("messageFails", "Employee update failure");
            return "/employee/edit";
        }
     }

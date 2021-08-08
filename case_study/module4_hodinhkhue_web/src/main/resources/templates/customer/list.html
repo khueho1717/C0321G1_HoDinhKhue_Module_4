@@ -22,66 +22,75 @@
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-
-
-        <table class="table table-striped ">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Code</th>
-                <th scope="col">Name</th>
-                <th scope="col">Birthday</th>
-                <th scope="col">Email</th>
-                <th scope="col">Type</th>
-                <th scope="col">Address</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Id Card</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="customer,status : ${customers}">
-                <tr>
-                    <td th:text="${status.count}"></td>
-                    <td th:text="${customer.customerCode}"></td>
-                    <td><a th:href="@{/customers/view-customer/__${customer.customerId}__ }"
-                           th:text="${customer.customerName}"></a></td>
-                    <td th:text="${customer.customerBirthday}"></td>
-                    <td th:text="${customer.customerEmail}"></td>
-                    <td th:text="${customer.customerType.typeName}"></td>
-                    <td th:text="${customer.customerAddress}"></td>
-                    <td th:if="${customer.customerGender == 1}" th:text="Male"></td>
-                    <td th:if="${customer.customerGender == 2}" th:text="Female"></td>
-                    <td th:if="${customer.customerGender == 0}" th:text="LGBT"></td>
-                    <td th:text="${customer.customerIdCard}"></td>
-                    <td th:text="${customer.customerPhone}"></td>
-                    <td><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">
-                        <button type="button" class="btn btn-primary">Edit</button>
-                    </a></td>
-                    <td>
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                data-target="#exampleModal" th:onclick="|deleteCustomer(${customer.customerId})|">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            </th:block>
-            </tbody>
-        </table>
-        <div>
-            <div th:if="${search == null}">
-                <a th:href="@{/customers(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
-                <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-                <a th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+        <div th:if="${customers.getNumberOfElements()==0}">
+            <div class="alert alert-danger" role="alert">
+                No customers find any customers
             </div>
-            <div th:if="${search != null}">
-                <a th:href="@{/customers(search=${search},page=${customers.number - 1})}"
-                   th:if="${customers.hasPrevious()}">Previous</a>
-                <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-                <a th:href="@{/customers(search=${search},page=${customers.number + 1})}"
-                   th:if="${customers.hasNext()}">Next</a>
+            <a href="/customers">
+                <button type="button" class="btn btn-warning text-center ">Customer list</button>
+            </a>
+        </div>
+        <div th:if="${customers.getNumberOfElements()!=0}">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Birthday</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Id Card</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="customer,status : ${customers}">
+                    <tr>
+                        <td th:text="${status.count}"></td>
+                        <td th:text="${customer.customerCode}"></td>
+                        <td><a th:href="@{/customers/view-customer/__${customer.customerId}__ }"
+                               th:text="${customer.customerName}"></a></td>
+                        <td th:text="${customer.customerBirthday}"></td>
+                        <td th:text="${customer.customerEmail}"></td>
+                        <td th:text="${customer.customerType.typeName}"></td>
+                        <td th:text="${customer.customerAddress}"></td>
+                        <td th:if="${customer.customerGender == 1}" th:text="Male"></td>
+                        <td th:if="${customer.customerGender == 2}" th:text="Female"></td>
+                        <td th:if="${customer.customerGender == 0}" th:text="LGBT"></td>
+                        <td th:text="${customer.customerIdCard}"></td>
+                        <td th:text="${customer.customerPhone}"></td>
+                        <td><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">
+                            <button type="button" class="btn btn-primary">Edit</button>
+                        </a></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#exampleModal" th:onclick="|deleteCustomer(${customer.customerId})|">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <div>
+                <div th:if="${search == null}">
+                    <a th:href="@{/customers(page=${customers.number - 1})}"
+                       th:if="${customers.hasPrevious()}">Previous</a>
+                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
+                    <a th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+                </div>
+                <div th:if="${search != null}">
+                    <a th:href="@{/customers(search=${search},page=${customers.number - 1})}"
+                       th:if="${customers.hasPrevious()}">Previous</a>
+                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
+                    <a th:href="@{/customers(search=${search},page=${customers.number + 1})}"
+                       th:if="${customers.hasNext()}">Next</a>
+                </div>
             </div>
         </div>
     </div>

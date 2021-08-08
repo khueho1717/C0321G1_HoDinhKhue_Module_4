@@ -53,6 +53,7 @@ public class ServiceController {
         }else {
             model.addAttribute("serviceTypes", serviceTypeService.findAll());
             model.addAttribute("rentTypes", rentTypeService.findAll());
+            model.addAttribute("messageFails", "Service create failure");
             return "/service/create";
         }
     }

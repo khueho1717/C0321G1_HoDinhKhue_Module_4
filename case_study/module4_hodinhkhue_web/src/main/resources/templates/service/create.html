@@ -16,6 +16,9 @@
         <th:block th:if="${message}">
             <div class="alert alert-success" role="alert" th:text="${message}"></div>
         </th:block>
+        <th:block th:if="${messageFails}">
+            <div class="alert alert-danger" role="alert" th:text="${messageFails}"></div>
+        </th:block>
         <form th:object="${service}" th:action="@{/services/create-service}" method="post">
             <div class="form-row">
                 <div class="form-group col-md-4">

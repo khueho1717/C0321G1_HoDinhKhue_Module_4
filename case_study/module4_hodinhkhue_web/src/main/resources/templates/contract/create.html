@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-2 bg-info text-center">
+        <nav class="nav flex-column ">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </div>
+    <div class="col-10 m-auto p-5">
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <th:block th:if="${messageFails}">
+            <div class="alert alert-danger" role="alert" th:text="${messageFails}"></div>
+        </th:block>
+        <form th:object="${contract}" th:action="@{/contracts/create-contract}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Start day times</label>
+                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           th:field="*{contractStartDate}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractStartDate')}"
+                          th:errors="*{contractStartDate}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail11">End day</label>
+                    <input type="date" class="form-control" id="exampleInputEmail11" aria-describedby="emailHelp"
+                           th:field="*{contractEndDate}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractEndDate')}"
+                          th:errors="*{contractEndDate}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="exampleInputEmail">Deposit</label>
+                    <input type="number" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{contractDeposit}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractDeposit')}"
+                          th:errors="*{contractDeposit}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="exampleInputEmail8">Total Money</label>
+                    <input type="number" class="form-control" id="exampleInputEmail8" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{contractTotalMoney}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractTotalMoney')}"
+                          th:errors="*{contractTotalMoney}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect14">Employee</label>
+                    <select class="form-control" id="exampleFormControlSelect14" th:field="*{employee}">
+                        <option th:each="e : ${employees}" th:value="${e.employeeId}" th:text="${e.employeeName}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect4">Customer</label>
+                    <select class="form-control" id="exampleFormControlSelect4" th:field="*{customer}">
+                        <option th:each="c : ${customers}" th:value="${c.customerId}" th:text="${c.customerName}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect7">Service</label>
+                    <select class="form-control" id="exampleFormControlSelect7" th:field="*{service}">
+                        <option th:each="s : ${services}" th:value="${s.serviceId}" th:text="${s.serviceName}"></option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Contract</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>
