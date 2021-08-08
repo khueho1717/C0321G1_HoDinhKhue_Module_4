@@ -15,8 +15,8 @@
     <div class="col-10 text-center p-5">
         <form class="form-inline float-right mb-3">
             <p class="mb-0 float-left ">
-                <a href="/customers/create-customer">
-                    <button type="button" class="btn btn-warning m-2">Create Customer</button>
+                <a href="/employees/create-employee">
+                    <button type="button" class="btn btn-warning m-2">Create Employee</button>
                 </a>
             </p>
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
@@ -28,41 +28,39 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Code</th>
                 <th scope="col">Name</th>
                 <th scope="col">Birthday</th>
                 <th scope="col">Email</th>
-                <th scope="col">Type</th>
+                <th scope="col">Id Cart</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Number Phone</th>
                 <th scope="col">Address</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Id Card</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Position</th>
+                <th scope="col">Division</th>
+                <th scope="col">Education Degree</th>
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="customer,status : ${customers}">
+            <th:block th:each="employee,status : ${employees}">
                 <tr>
                     <td th:text="${status.count}"></td>
-                    <td th:text="${customer.customerCode}"></td>
-                    <td><a th:href="@{/customers/view-customer/__${customer.customerId}__ }"
-                           th:text="${customer.customerName}"></a></td>
-                    <td th:text="${customer.customerBirthday}"></td>
-                    <td th:text="${customer.customerEmail}"></td>
-                    <td th:text="${customer.customerType.typeName}"></td>
-                    <td th:text="${customer.customerAddress}"></td>
-                    <td th:if="${customer.customerGender == 1}" th:text="Male"></td>
-                    <td th:if="${customer.customerGender == 2}" th:text="Female"></td>
-                    <td th:if="${customer.customerGender == 0}" th:text="LGBT"></td>
-                    <td th:text="${customer.customerIdCard}"></td>
-                    <td th:text="${customer.customerPhone}"></td>
-                    <td><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">
+                    <td th:text="${employee.employeeName}"></td>
+                    <td><a th:href="@{/employees/view-employee/__${employee.employeeId}__ }"
+                           th:text="${employee.employeeName}"></a></td>
+                    <td th:text="${employee.employeeEmail}"></td>
+                    <td th:text="${employee.employeeIdCard}"></td>
+                    <td th:text="${employee.employeeSalary}"></td>
+                    <td th:text="${employee.employeePhone}"></td>
+                    <td th:text="${employee.employeeAddress}"></td>
+                    <td th:text="${employee.position.positonName}"></td>
+                    <td th:text="${employee.divisions.divisionname}"></td>
+                    <td th:text="${employee.educationDegree.educationDegreeName}"></td>
+                    <td><a th:href="@{/employees/edit-employee/__${employee.employeeId}__ }">
                         <button type="button" class="btn btn-primary">Edit</button>
                     </a></td>
                     <td>
                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                data-target="#exampleModal" th:onclick="|deleteCustomer(${customer.customerId})|">
+                                data-target="#exampleModal" th:onclick="|deleteEmployee(${employee.employeeId})|">
                             Delete
                         </button>
                     </td>
@@ -72,26 +70,26 @@
         </table>
         <div>
             <div th:if="${search == null}">
-                <a th:href="@{/customers(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
-                <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-                <a th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+                <a th:href="@{/employees(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}">Previous</a>
+                <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>
+                <a th:href="@{/employees(page=${employees.number + 1})}" th:if="${employees.hasNext()}">Next</a>
             </div>
             <div th:if="${search != null}">
-                <a th:href="@{/customers(search=${search},page=${customers.number - 1})}"
-                   th:if="${customers.hasPrevious()}">Previous</a>
-                <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-                <a th:href="@{/customers(search=${search},page=${customers.number + 1})}"
-                   th:if="${customers.hasNext()}">Next</a>
+                <a th:href="@{/employees(search=${search},page=${employees.number - 1})}"
+                   th:if="${employees.hasPrevious()}">Previous</a>
+                <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>
+                <a th:href="@{/employees(search=${search},page=${employees.number + 1})}"
+                   th:if="${employees.hasNext()}">Next</a>
             </div>
         </div>
     </div>
 </div>
-<form action="/customers/delete-customer">
+<form action="/employees/delete-employee">
     <div class="modal" id="exampleModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Delete Customer </h5>
+                    <h5 class="modal-title">Delete Employee </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -110,7 +108,7 @@
 </form>
 <!--Modal-->
 <script>
-    function deleteCustomer(id) {
+    function deleteEmployee(id) {
         document.getElementById('id').value = id;
     }
 </script>

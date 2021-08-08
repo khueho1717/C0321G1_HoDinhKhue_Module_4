@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-2 bg-info text-center">
+        <nav class="nav flex-column ">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </div>
+    <div class="col-10 m-auto p-5">
+        <a href="/employees">
+            <button type="button" class="btn btn-warning ">Employee list</button>
+        </a>
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <form th:object="${employee}" th:action="@{/employees/create-employee}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Name Employee</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           th:field="*{employeeName}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeeName')}"
+                          th:errors="*{employeeName}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail">Email</label>
+                    <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{employeeEmail}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeeEmail')}"
+                          th:errors="*{employeeEmail}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail12">Salary</label>
+                    <input type="number" class="form-control" id="exampleInputEmail12" aria-describedby="emailHelp"
+                           placeholder="Enter email" th:field="*{employeeSalary}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeeSalary')}"
+                          th:errors="*{employeeSalary}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Brithday</label>
+                    <input type="date" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                           th:field="*{employeeBirthday}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeeBirthday')}"
+                          th:errors="*{employeeBirthday}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputCity3">Address</label>
+                    <input type="text" class="form-control" id="inputCity3" th:field="*{employeeAddress}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeeAddress')}"
+                          th:errors="*{employeeAddress}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                        <label for="exampleFormControlSelect14">Position</label>
+                        <select class="form-control" id="exampleFormControlSelect14" th:field="*{position}">
+                            <option th:each="p : ${position}" th:value="${p.positionId}" th:text="${p.positonName}"></option>
+                        </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect4">Education Degree</label>
+                    <select class="form-control" id="exampleFormControlSelect4" th:field="*{educationDegree}">
+                        <option th:each="e : ${educationDegree}" th:value="${e.educationDegreeId}" th:text="${e.educationDegreeName}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputCity2">ID Cart</label>
+                    <input type="text" class="form-control" id="inputCity2" th:field="*{employeeIdCard}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeeIdCard')}"
+                          th:errors="*{employeeIdCard}"></span>
+                </div>
+                <div class="form-group col-md-4">
+                        <label for="exampleFormControlSelect24">Division</label>
+                        <select class="form-control" id="exampleFormControlSelect24" th:field="*{divisions}">
+                            <option th:each="d : ${division}" th:value="${d.divisionId}" th:text="${d.divisionname}"></option>
+                        </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Number Phone</label>
+                    <input type="text" class="form-control" id="inputZip" th:field="*{employeePhone}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('employeePhone')}"
+                          th:errors="*{employeePhone}"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Employee</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

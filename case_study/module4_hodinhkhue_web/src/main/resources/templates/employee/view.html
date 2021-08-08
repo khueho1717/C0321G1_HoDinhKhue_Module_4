@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-2 bg-info text-center">
+        <nav class="nav flex-column ">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </div>
+    <div class="col-10 text-center p-5">
+
+        <table class="table table-striped">
+            <tr>
+                <th>Field</th>
+                <th>Content</th>
+            </tr>
+            <tr>
+                <td>Employee name:</td>
+                <td th:text="${employee.employeeName}"></td>
+            </tr>
+            <tr>
+                <td>Birthday :</td>
+                <td th:text="${employee.employeeBirthday}"></td>
+            </tr>
+            <tr>
+                <td>Id Cart :</td>
+                <td th:text="${employee.employeeId}"></td>
+            </tr>
+            <tr>
+                <td>Salary:</td>
+                <td th:text="${employee.employeeSalary}"></td>
+            </tr>
+            <tr>
+                <td>Number phone:</td>
+                <td th:text="${employee.employeePhone}"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td th:text="${employee.employeeEmail}"></td>
+            </tr>
+            <tr>
+                <td>Address :</td>
+                <td th:text="${employee.employeeAddress}"></td>
+            </tr>
+            <tr>
+                <td>Position :</td>
+                <td th:text="${employee.position.positonName}"></td>
+            </tr>
+            <tr>
+                <td>Division :</td>
+                <td th:text="${employee.divisions.divisionname}"></td>
+            </tr>
+            <tr>
+                <td>Education :</td>
+                <td th:text="${employee.educationDegree.educationDegreeName}"></td>
+            </tr>
+        </table>
+        <hr>
+        <p class="mb-0">
+            <a href="/employees">
+                <button type="button" class="btn btn-warning m-2">Back to List Employee</button>
+            </a>
+        </p>
+    </div>
+</div>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

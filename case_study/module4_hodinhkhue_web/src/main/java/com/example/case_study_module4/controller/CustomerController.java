@@ -82,13 +82,20 @@ public class CustomerController {
     }
 
     @PostMapping("/edit-customer")
-    public ModelAndView updateCustomer(@ModelAttribute("customer") Customer customer) {
-        customerService.save(customer);
-        ModelAndView modelAndView = new ModelAndView("/customer/edit");
-        modelAndView.addObject("customerType", customerTypeService.findAll());
-        modelAndView.addObject("customer", customerService.findById(customer.getCustomerId()));
-        modelAndView.addObject("message", "Customer updated successfully");
-        return modelAndView;
+    public String updateCustomer(@Validated @ModelAttribute(name = "customer") CustomerDto customer, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()) {
+            Customer customer1=new Customer();
+            BeanUtils.copyProperties(customer,customer1);
+            customerService.save(customer1);
+            model.addAttribute("customer", new CustomerDto());
+            model.addAttribute("customerType", customerTypeService.findAll());
+            model.addAttribute("message", "Customer create successfully");
+            return "/customer/edit";
+        }else {
+            model.addAttribute("customer", customer);
+            model.addAttribute("customerType", customerTypeService.findAll());
+            return "/customer/edit";
+        }
     }
 
     @GetMapping("/delete-customer")
