@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:fragment="head">
         <meta charset="UTF-8">
         <title>Home</title>
@@ -12,11 +13,17 @@
                 <a class="navbar-brand" href="#">
                     <img src="/image/logo-furama.png" width="60" height="60" class="d-inline-block align-top" alt="">
                 </a>
+                <div class="d-inline float-right">
+                    <span class="alert-link alert alert-warning" th:if="${#request.userPrincipal !=null}" th:utext="${#request.userPrincipal.name}" ></span>
+
+                    <span th:if="${#request.userPrincipal !=null}" ><a href="/logout">Logout</a></span>
+                </div>
+                <span th:if="${#request.userPrincipal ==null}" class="float-right alert-link alert alert-warning"><a href="/login">Login</a></span>
             </nav>
         </div>
         <div th:fragment="nav">
             <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
-                <a class="navbar-brand" href="/">Home</a>
+                <a class="navbar-brand text-warning" href="/">Home</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,19 +33,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/customers">Customer</a>
+                            <a class="nav-link text-warning" href="/customers">Customer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/employees">Employee</a>
+                            <a class="nav-link text-warning" href="/employees">Employee</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/services/create-service">Service</a>
+                            <a class="nav-link text-warning" href="/services/create-service">Service</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contracts/create-contract">Contract</a>
+                            <a class="nav-link text-warning" href="/contracts/create-contract">Contract</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contract-details/create-contract-detail">Contract Detail</a>
+                            <a class="nav-link text-warning" href="/contract-details/create-contract-detail">Contract Detail</a>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0">

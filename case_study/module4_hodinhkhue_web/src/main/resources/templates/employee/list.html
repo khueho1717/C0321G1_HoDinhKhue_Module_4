@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="/layout/layout::head"></head>
 <body>
 <div th:insert="/layout/layout::nav"></div>
@@ -46,6 +47,8 @@
                     <th scope="col">Position</th>
                     <th scope="col">Division</th>
                     <th scope="col">Education Degree</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')"  th:text="Edit"></th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')" th:text="Delete"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,10 +66,10 @@
                         <td th:text="${employee.position.positonName}"></td>
                         <td th:text="${employee.divisions.divisionname}"></td>
                         <td th:text="${employee.educationDegree.educationDegreeName}"></td>
-                        <td><a th:href="@{/employees/edit-employee/__${employee.employeeId}__ }">
+                        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/employees/edit-employee/__${employee.employeeId}__ }">
                             <button type="button" class="btn btn-primary">Edit</button>
                         </a></td>
-                        <td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <button type="button" class="btn btn-danger" data-toggle="modal"
                                     data-target="#exampleModal" th:onclick="|deleteEmployee(${employee.employeeId})|">
                                 Delete
@@ -77,17 +80,33 @@
                 </tbody>
             </table>
             <div>
-                <div th:if="${search == null}">
-                    <a th:href="@{/employees(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}">Previous</a>
-                    <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>
-                    <a th:href="@{/employees(page=${employees.number + 1})}" th:if="${employees.hasNext()}">Next</a>
-                </div>
-                <div th:if="${search != null}">
-                    <a th:href="@{/employees(search=${search},page=${employees.number - 1})}"
-                       th:if="${employees.hasPrevious()}">Previous</a>
-                    <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>
-                    <a th:href="@{/employees(search=${search},page=${employees.number + 1})}"
-                       th:if="${employees.hasNext()}">Next</a>
+<!--                <div th:if="${search == null}">-->
+<!--                    <a th:href="@{/employees(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}">Previous</a>-->
+<!--                    <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>-->
+<!--                    <a th:href="@{/employees(page=${employees.number + 1})}" th:if="${employees.hasNext()}">Next</a>-->
+<!--                </div>-->
+<!--                <div th:if="${search != null}">-->
+<!--                    <a th:href="@{/employees(search=${search},page=${employees.number - 1})}"-->
+<!--                       th:if="${employees.hasPrevious()}">Previous</a>-->
+<!--                    <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>-->
+<!--                    <a th:href="@{/employees(search=${search},page=${employees.number + 1})}"-->
+<!--                       th:if="${employees.hasNext()}">Next</a>-->
+<!--                </div>-->
+                <div class="float-right">
+                    <ul class="pagination" th:if="${search == null}">
+                        <li class="page-item"><a class="page-link" th:href="@{/employees(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}" th:text="Previous"></a></li>
+                        <li class="page-item"><span class="page-link" th:text="${employees.number + 1}"></span></li>
+                        <li class="page-item"><span class="page-link" >of</span></li>
+                        <li class="page-item"><span class="page-link" th:text="${employees.totalPages}"></span></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/employees(page=${employees.number + 1})}" th:if="${employees.hasNext()}" th:text="Next"></a></li>
+                    </ul>
+                    <ul class="pagination" th:if="${search != null}">
+                        <li class="page-item"><a class="page-link" th:href="@{/customers(search=${search},page=${employees.number - 1})}" th:if="${employees.hasPrevious()}" th:text="Previous"></a></li>
+                        <li class="page-item"><span class="page-link" th:text="${employees.number + 1}"></span></li>
+                        <li class="page-item"><span class="page-link" >of</span></li>
+                        <li class="page-item"><span class="page-link" th:text="${employees.totalPages}"></span></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/employees(search=${search},page=${employees.number + 1})}" th:if="${employees.hasNext()}" th:text="Next"></a></li>
+                    </ul>
                 </div>
             </div>
         </div>

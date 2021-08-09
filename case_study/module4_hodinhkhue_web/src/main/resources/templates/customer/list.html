@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="/layout/layout::head"></head>
 <body>
 <div th:insert="/layout/layout::nav"></div>
@@ -13,6 +14,7 @@
         </nav>
     </div>
     <div class="col-10 text-center p-5">
+        <h2>Customer List</h2>
         <form class="form-inline float-right mb-3">
             <p class="mb-0 float-left ">
                 <a href="/customers/create-customer">
@@ -44,8 +46,8 @@
                     <th scope="col">Gender</th>
                     <th scope="col">Id Card</th>
                     <th scope="col">Phone</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -64,10 +66,10 @@
                         <td th:if="${customer.customerGender == 0}" th:text="LGBT"></td>
                         <td th:text="${customer.customerIdCard}"></td>
                         <td th:text="${customer.customerPhone}"></td>
-                        <td><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">
+                        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">
                             <button type="button" class="btn btn-primary">Edit</button>
                         </a></td>
-                        <td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <button type="button" class="btn btn-danger" data-toggle="modal"
                                     data-target="#exampleModal" th:onclick="|deleteCustomer(${customer.customerId})|">
                                 Delete
@@ -77,20 +79,37 @@
                 </th:block>
                 </tbody>
             </table>
-            <div>
-                <div th:if="${search == null}">
-                    <a th:href="@{/customers(page=${customers.number - 1})}"
-                       th:if="${customers.hasPrevious()}">Previous</a>
-                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-                    <a th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
-                </div>
-                <div th:if="${search != null}">
-                    <a th:href="@{/customers(search=${search},page=${customers.number - 1})}"
-                       th:if="${customers.hasPrevious()}">Previous</a>
-                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-                    <a th:href="@{/customers(search=${search},page=${customers.number + 1})}"
-                       th:if="${customers.hasNext()}">Next</a>
-                </div>
+<!--            <div>-->
+<!--                <div class="pagination" th:if="${search == null}">-->
+<!--                    <a class="page-item" th:href="@{/customers(page=${customers.number - 1})}"-->
+<!--                       th:if="${customers.hasPrevious()}">Previous</a>-->
+<!--                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>-->
+<!--                    <a class="page-item" th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>-->
+<!--                </div>-->
+<!--                <div class="pagination" th:if="${search != null}">-->
+<!--                    <a class="page-item" th:href="@{/customers(search=${search},page=${customers.number - 1})}"-->
+<!--                       th:if="${customers.hasPrevious()}">Previous</a>-->
+<!--                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>-->
+<!--                    <a class="page-item" th:href="@{/customers(search=${search},page=${customers.number + 1})}"-->
+<!--                       th:if="${customers.hasNext()}">Next</a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="float-right">
+                <ul class="pagination" th:if="${search == null}">
+                    <li class="page-item"><a class="page-link" th:href="@{/customers(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${customers.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link" >of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${customers.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}" th:text="Next"></a></li>
+                </ul>
+                <ul class="pagination" th:if="${search != null}">
+                    <li class="page-item"><a class="page-link" th:href="@{/customers(search=${search},page=${customers.number - 1})}" th:if="${customers.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${customers.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link" >of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${customers.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/customers(search=${search},page=${customers.number + 1})}" th:if="${customers.hasNext()}" th:text="Next"></a></li>
+                </ul>
             </div>
         </div>
     </div>
