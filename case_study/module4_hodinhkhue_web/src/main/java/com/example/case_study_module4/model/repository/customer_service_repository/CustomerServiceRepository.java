@@ -6,18 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerServiceRepository extends PagingAndSortingRepository<Customer, Integer> {
-//    @Query(value = "select customer.customer_id as customerId, customer.customer_name as customerName, customer.customer_email as customerEmail ," +
-//            " customer.customer_address as customerAddress, contract.contract_id as contractId," +
-//            " contract.contract_total_money as contractTotalMoney," +
-//            " attach_service.attach_service_name as attachServiceName, attach_service.attach_service_cost as attachServiceCost" +
-//            " from customer " +
-//            "right join contract on customer.customer_id = contract.customer_id " +
-//            "left join contact_detail on contract.contract_id = contact_detail.contract_id " +
-//            "left join attach_service on contact_detail.attach_service_id = attach_service.attach_service_id", nativeQuery = true)
 
     @Query(value="select customer.customer_id as customerId, customer.customer_name as customerName, customer.customer_email as customerEmail ," +
             " customer.customer_address as customerAddress, contract.contract_id as contractId," +
@@ -28,4 +21,18 @@ public interface CustomerServiceRepository extends PagingAndSortingRepository<Cu
             "left join contact_detail on contract.contract_id = contact_detail.contract_id " +
             "left join attach_service on contact_detail.attach_service_id = attach_service.attach_service_id",nativeQuery = true)
     Page<CustomerServiceDto> findCustomerService(Pageable pageable);
+
+    @Query(value="select customer.customer_id as customerId, customer.customer_name as customerName, customer.customer_email as customerEmail ," +
+            " customer.customer_address as customerAddress, contract.contract_id as contractId," +
+            " contract.contract_total_money as contractTotalMoney," +
+            " attach_service.attach_service_name as attachServiceName, attach_service.attach_service_cost as attachServiceCost" +
+            " from `customer` " +
+            "right join contract on `customer`.customer_id = contract.customer_id " +
+            "left join contact_detail on contract.contract_id = contact_detail.contract_id " +
+            "left join attach_service on contact_detail.attach_service_id = attach_service.attach_service_id "+
+            "where customer.customer_name like %:search%" +
+            " or attach_service.attach_service_name like %:search%" +
+            " or customer.customer_address like %:search%",nativeQuery=true)
+    Page<CustomerServiceDto> findCustomerUserService(@Param("search") String search, Pageable pageable);
+
 }

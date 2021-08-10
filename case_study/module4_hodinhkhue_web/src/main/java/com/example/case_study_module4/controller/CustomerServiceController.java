@@ -21,13 +21,19 @@ public class CustomerServiceController {
     ICustomerServiceService customerServiceService;
 
     @GetMapping
-    public String listCustomerServices(
+    public String listCustomerServices(@RequestParam(value = "search", required = false) String search,
             @PageableDefault(value = 4) Pageable pageable, Model model) {
         Page<CustomerServiceDto> customers;
-        customers = customerServiceService.findCustomerService(pageable);
+        if (search != null){
+            customers=customerServiceService.findCustomerUserService(search, pageable);
+            model.addAttribute("search", search);
+        }else {
+            customers = customerServiceService.findCustomerService(pageable);
+        }
         model.addAttribute("customers", customers);
         return "/customer_service/list";
     }
+
 
 
 }

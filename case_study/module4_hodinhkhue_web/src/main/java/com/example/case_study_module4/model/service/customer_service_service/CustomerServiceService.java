@@ -16,4 +16,9 @@ public class CustomerServiceService implements ICustomerServiceService {
     public Page<CustomerServiceDto> findCustomerService(Pageable pageable) {
         return customerServiceRepository.findCustomerService(pageable);
     }
+
+    @Override
+    public Page<CustomerServiceDto> findCustomerUserService(String search, Pageable pageable) {
+        return customerServiceRepository.findCustomerUserService(search, pageable);
+    }
 }
