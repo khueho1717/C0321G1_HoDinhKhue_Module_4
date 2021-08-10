@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-10 text-center m-auto p-5">
+        <h2>Customer Servive List</h2>
+        <div class="col-12 ">
+            <form class="form-inline float-right  ">
+
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div th:if="${customers.getNumberOfElements()==0}">
+            <div class="alert alert-danger" role="alert">
+                No customers find any customers
+            </div>
+            <a href="/customer-services">
+                <button type="button" class="btn btn-warning text-center ">Customer Service list</button>
+            </a>
+        </div>
+        <div th:if="${customers.getNumberOfElements()!=0}">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Contract Id</th>
+                    <th scope="col">Contract Total Money</th>
+                    <th scope="col">Attach Service Name</th>
+<!--                    <th scope="col">Attach Service Cost</th>-->
+<!--                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>-->
+<!--                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="customer,status : ${customers}">
+                    <tr>
+                        <td th:text="${status.count}"></td>
+                        <td th:text="${customer.customerName}"></td>
+                        <td th:text="${customer.customerEmail}"></td>
+                        <td th:text="${customer.customerAddress}"></td>
+                        <td th:text="${customer.contractId}"></td>
+                        <td th:text="${customer.contractTotalMoney}"></td>
+                        <td th:text="${customer.attachServiceName}"></td>
+<!--                        <td th:text="${customer.attachServiceCost}"></td>-->
+<!--                        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">-->
+<!--                            <button type="button" class="btn btn-primary">Edit</button>-->
+<!--                        </a></td>-->
+<!--                        <td sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--                            <button type="button" class="btn btn-danger" data-toggle="modal"-->
+<!--                                    data-target="#exampleModal" th:onclick="|deleteCustomer(${customer.customerId})|">-->
+<!--                                Delete-->
+<!--                            </button>-->
+<!--                        </td>-->
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <!--            <div>-->
+            <!--                <div class="pagination" th:if="${search == null}">-->
+            <!--                    <a class="page-item" th:href="@{/customers(page=${customers.number - 1})}"-->
+            <!--                       th:if="${customers.hasPrevious()}">Previous</a>-->
+            <!--                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>-->
+            <!--                    <a class="page-item" th:href="@{/customers(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>-->
+            <!--                </div>-->
+            <!--                <div class="pagination" th:if="${search != null}">-->
+            <!--                    <a class="page-item" th:href="@{/customers(search=${search},page=${customers.number - 1})}"-->
+            <!--                       th:if="${customers.hasPrevious()}">Previous</a>-->
+            <!--                    <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>-->
+            <!--                    <a class="page-item" th:href="@{/customers(search=${search},page=${customers.number + 1})}"-->
+            <!--                       th:if="${customers.hasNext()}">Next</a>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <div class="float-right">
+                <ul class="pagination" >
+                    <li class="page-item"><a class="page-link" th:href="@{/customer-services(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${customers.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link" >of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${customers.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/customer-services(page=${customers.number + 1})}" th:if="${customers.hasNext()}" th:text="Next"></a></li>
+                </ul>
+<!--                <ul class="pagination" th:if="${search != null}">-->
+<!--                    <li class="page-item"><a class="page-link" th:href="@{/customers(search=${search},page=${customers.number - 1})}" th:if="${customers.hasPrevious()}" th:text="Previous"></a></li>-->
+<!--                    <li class="page-item"><span class="page-link" th:text="${customers.number + 1}"></span></li>-->
+<!--                    <li class="page-item"><span class="page-link" >of</span></li>-->
+<!--                    <li class="page-item"><span class="page-link" th:text="${customers.totalPages}"></span></li>-->
+<!--                    <li class="page-item"><a class="page-link" th:href="@{/customers(search=${search},page=${customers.number + 1})}" th:if="${customers.hasNext()}" th:text="Next"></a></li>-->
+<!--                </ul>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--<form action="/customers/delete-customer">-->
+<!--    <div class="modal" id="exampleModal" tabindex="-1">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title">Delete Customer </h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <input type="hidden" id="id" name="id">-->
+<!--                <div class="modal-body">-->
+<!--                    <p>Do you really want to delete.</p>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                    <button type="submit" class="btn btn-primary">Delete</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
+<!--Modal-->
+<!--<script>-->
+<!--    function deleteCustomer(id) {-->
+<!--        document.getElementById('id').value = id;-->
+<!--    }-->
+<!--</script>-->
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>
