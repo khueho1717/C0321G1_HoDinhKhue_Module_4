@@ -19,7 +19,7 @@
                     <label for="exampleFormControlSelect4">Contract Id</label>
                     <select class="form-control" id="exampleFormControlSelect4" th:field="*{contract}">
                         <option th:each="c : ${contracts}" th:value="${c.contractId}"
-                                th:text="${c.contractId}"></option>
+                                th:text="${c.contractId}+'- of customer: '+${c.customer.customerName}"></option>
                     </select>
                 </div>
             </div>

@@ -23,10 +23,11 @@
         <div th:if="${employees.getNumberOfElements()==0}">
             <div class="alert alert-danger" role="alert">
                 No employees find any customers
+                <a href="/employees">
+                    <button type="button" class="btn btn-warning text-center ">Employees list</button>
+                </a>
             </div>
-            <a href="/employees">
-                <button type="button" class="btn btn-warning text-center ">Employees list</button>
-            </a>
+
         </div>
         <div th:if="${employees.getNumberOfElements()!=0}">
             <table class="table table-striped ">
@@ -51,9 +52,9 @@
                 <th:block th:each="employee,status : ${employees}">
                     <tr>
                         <td th:text="${status.count}"></td>
-                        <td th:text="${employee.employeeName}"></td>
                         <td><a th:href="@{/employees/view-employee/__${employee.employeeId}__ }"
                                th:text="${employee.employeeName}"></a></td>
+                        <td th:text="${employee.employeeBirthday}"></td>
                         <td th:text="${employee.employeeEmail}"></td>
                         <td th:text="${employee.employeeIdCard}"></td>
                         <td th:text="${employee.employeeSalary + ' USD'}"></td>
@@ -76,18 +77,6 @@
                 </tbody>
             </table>
             <div>
-<!--                <div th:if="${search == null}">-->
-<!--                    <a th:href="@{/employees(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}">Previous</a>-->
-<!--                    <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>-->
-<!--                    <a th:href="@{/employees(page=${employees.number + 1})}" th:if="${employees.hasNext()}">Next</a>-->
-<!--                </div>-->
-<!--                <div th:if="${search != null}">-->
-<!--                    <a th:href="@{/employees(search=${search},page=${employees.number - 1})}"-->
-<!--                       th:if="${employees.hasPrevious()}">Previous</a>-->
-<!--                    <span th:text="${employees.number + 1}"></span>/<span th:text="${employees.totalPages}"></span>-->
-<!--                    <a th:href="@{/employees(search=${search},page=${employees.number + 1})}"-->
-<!--                       th:if="${employees.hasNext()}">Next</a>-->
-<!--                </div>-->
                 <div class="float-right">
                     <ul class="pagination" th:if="${search == null}">
                         <li class="page-item"><a class="page-link" th:href="@{/employees(page=${employees.number - 1})}" th:if="${employees.hasPrevious()}" th:text="Previous"></a></li>

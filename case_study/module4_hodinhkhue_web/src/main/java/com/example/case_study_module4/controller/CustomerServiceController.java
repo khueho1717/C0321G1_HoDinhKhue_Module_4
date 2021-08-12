@@ -2,6 +2,8 @@ package com.example.case_study_module4.controller;
 
 import com.example.case_study_module4.dto.CustomerServiceDto;
 import com.example.case_study_module4.model.entity.Customer;
+import com.example.case_study_module4.model.service.contract_service.IAttachServiceService;
+import com.example.case_study_module4.model.service.contract_service.IContractDetailService;
 import com.example.case_study_module4.model.service.customer_service_service.ICustomerServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,8 @@ public class CustomerServiceController {
 
     @Autowired
     ICustomerServiceService customerServiceService;
+    @Autowired
+    IContractDetailService contractDetailService;
 
     @GetMapping
     public String listCustomerServices(@RequestParam(value = "search", required = false) String search,
@@ -31,6 +35,7 @@ public class CustomerServiceController {
             customers = customerServiceService.findCustomerService(pageable);
         }
         model.addAttribute("customers", customers);
+        model.addAttribute("contractdetail",contractDetailService.findAll());
         return "/customer_service/list";
     }
 

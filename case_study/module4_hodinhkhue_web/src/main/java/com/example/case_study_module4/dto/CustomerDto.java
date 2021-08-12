@@ -1,6 +1,7 @@
 package com.example.case_study_module4.dto;
 
 import com.example.case_study_module4.model.entity.CustomerType;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;

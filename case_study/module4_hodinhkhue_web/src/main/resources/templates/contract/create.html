@@ -16,33 +16,33 @@
         <form th:object="${contract}" th:action="@{/contracts/create-contract}" method="post">
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="exampleInputEmail1">Start day times</label>
+                    <label for="exampleInputEmail1">Start date times</label>
                     <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                            th:field="*{contractStartDate}">
                     <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractStartDate')}"
                           th:errors="*{contractStartDate}"></span>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="exampleInputEmail11">End day</label>
+                    <label for="exampleInputEmail11">End date times</label>
                     <input type="date" class="form-control" id="exampleInputEmail11" aria-describedby="emailHelp"
                            th:field="*{contractEndDate}">
                     <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractEndDate')}"
                           th:errors="*{contractEndDate}"></span>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-4">
                     <label for="exampleInputEmail">Deposit</label>
                     <input type="number" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
                            placeholder="Enter email" th:field="*{contractDeposit}">
                     <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractDeposit')}"
                           th:errors="*{contractDeposit}"></span>
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="exampleInputEmail8">Total Money</label>
-                    <input type="number" class="form-control" id="exampleInputEmail8" aria-describedby="emailHelp"
-                           placeholder="Enter email" th:field="*{contractTotalMoney}">
-                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractTotalMoney')}"
-                          th:errors="*{contractTotalMoney}"></span>
-                </div>
+<!--                <div class="form-group col-md-2">-->
+<!--                    <label for="exampleInputEmail8">Total Money</label>-->
+<!--                    <input type="number" class="form-control" id="exampleInputEmail8" aria-describedby="emailHelp"-->
+<!--                           placeholder="Enter email" th:field="*{contractTotalMoney}">-->
+<!--                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractTotalMoney')}"-->
+<!--                          th:errors="*{contractTotalMoney}"></span>-->
+<!--                </div>-->
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">

@@ -53,7 +53,12 @@
                         <td th:text="${customer.customerAddress}"></td>
                         <td th:text="${customer.contractId}"></td>
                         <td th:text="${customer.contractTotalMoney + ' USD'}"></td>
-                        <td th:text="${customer.attachServiceName}"></td>
+                        <td>
+                            <span th:each="cd:${contractdetail}">
+        <span th:if="(${customer.contractId}==${cd.contract.contractId})"
+              th:text="${cd.attachService.attachServiceName}">
+    </span></span>
+                        </td>
 <!--                        <td th:text="${customer.attachServiceCost}"></td>-->
 <!--                        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/customers/edit-customer/__${customer.customerId}__ }">-->
 <!--                            <button type="button" class="btn btn-primary">Edit</button>-->

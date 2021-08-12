@@ -46,6 +46,7 @@ public class ContractController {
         if (!bindingResult.hasErrors()) {
             Contract contract=new Contract();
             BeanUtils.copyProperties(contractDto,contract);
+            contractService.totalMoney();
             contractService.save(contract);
             model.addAttribute("contract",new ContractDto());
             model.addAttribute("employees",employeeService.findAll());
