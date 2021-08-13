@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:replace="/layout/layout::header"></div>
+<div class="row">
+    <div class="col-10 text-center m-auto p-5">
+        <h2>Question List</h2>
+        <div class="col-12 ">
+            <p class=" float-left ">
+                <a href="/questions/create-question">
+                    <button type="button" class="btn btn-warning m-2">Create Question</button>
+                </a>
+            </p>
+            <form class="form-inline float-right  ">
+
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div th:if="${questions.getNumberOfElements()==0}">
+            <div class="alert alert-danger" role="alert">
+                No questions find any question
+                <a href="/questions">
+                    <button type="button" class="btn btn-warning text-center ">Questions list</button>
+                </a>
+            </div>
+
+        </div>
+        <div th:if="${questions.getNumberOfElements()!=0}">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Date Create</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Type Question</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="question,status : ${questions}">
+                    <tr>
+                        <td th:text="${status.count}"></td>
+                        <td><a th:href="@{/questions/view-question/__${question.questionId}__ }"
+                               th:data1="${question.questionTitle}" th:data2="${question.questionContent}"
+                               th:data3="${question.answer}" th:data4="${question.questionType.questionTypeName}"
+                               th:data5="${question.dateCreate}" th:data6="${question.status}"
+                               data-toggle="modal"
+                               data-target="#exampleModal2"
+                               onclick="viewQuestion(this.getAttribute('data1'),this.getAttribute('data2'),this.getAttribute('data3'),
+                               this.getAttribute('data4'),this.getAttribute('data5'),this.getAttribute('data6'))"  th:text="${question.questionTitle}"></a></td>
+                        <td th:text="${question.dateCreate}"></td>
+                        <td th:if="${question.status == 0}">Chưa phản hồi</td>
+                        <td th:if="${question.status == 1}">Đã phản hồi</td>
+                        <td th:text="${question.questionType.questionTypeName}"></td>
+                        <td><a th:href="@{/questions/edit-question/__${question.questionId}__ }">
+                            <button type="button" class="btn btn-primary">Edit</button>
+                        </a></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#exampleModal" th:onclick="|deleteQuestion(${question.questionId})|">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <div class="float-right">
+                <ul class="pagination" th:if="${search == null}">
+                    <li class="page-item"><a class="page-link" th:href="@{/questions(page=${questions.number - 1})}"
+                                             th:if="${questions.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${questions.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link">of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${questions.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/questions(page=${questions.number + 1})}"
+                                             th:if="${questions.hasNext()}" th:text="Next"></a></li>
+                </ul>
+                <ul class="pagination" th:if="${search != null}">
+                    <li class="page-item"><a class="page-link"
+                                             th:href="@{/questions(search=${search},page=${questions.number - 1})}"
+                                             th:if="${questions.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${questions.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link">of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${questions.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link"
+                                             th:href="@{/questions(search=${search},page=${questions.number + 1})}"
+                                             th:if="${questions.hasNext()}" th:text="Next"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form action="/questions/delete-question">
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Question </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <p>Do you really want to delete.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--Modal-->
+<div class="modal" id="exampleModal2" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">view Question </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" id="id2" name="id">
+            <div class="modal-body">
+                <p><strong>Title questin : </strong><span id="title"></span></p>
+                <p><strong>Content : </strong><span id="content"></span></p>
+                <p><strong>Answer : </strong><span id="answer"></span></p>
+                <p><strong>Question type : </strong><span id="type"></span></p>
+                <p><strong>Date create : </strong><span id="date"></span></p>
+                <p><strong>Status: </strong><span id="status"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteQuestion(id) {
+        document.getElementById('id').value = id;
+    }
+    function viewQuestion(titleQuestion,content,answer,qsType,dateCreate,status) {
+        console.log(titleQuestion,content,answer)
+        document.getElementById('title').innerText = titleQuestion;
+        document.getElementById('content').innerText = content;
+        if (answer==null){
+            document.getElementById('answer').innerText = 'N/A';
+        }else {
+            document.getElementById('answer').innerText = answer;
+        }
+        document.getElementById('type').innerText = qsType;
+        document.getElementById('date').innerText = dateCreate;
+
+        if (status==0){
+            document.getElementById('status').innerText = 'Chưa phản hồi';
+
+        }else {
+            document.getElementById('status').innerText = 'Đã phản hồi';
+        }
+    }
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

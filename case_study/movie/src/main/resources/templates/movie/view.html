@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+
+    <div class="col-10 text-center p-5 m-auto">
+        <h2>Customer Infor</h2>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Field</th>
+                <th>Content</th>
+            </tr>
+            <tr>
+                <td>Movie Code:</td>
+                <td th:text="${movie.codeMovie}"></td>
+            </tr>
+            <tr>
+                <td>name Movie:</td>
+                <td th:text="${movie.nameMovie}"></td>
+            </tr>
+            <tr>
+                <td>Date Screening:</td>
+                <td th:text="${movie.dateScreening}"></td>
+            </tr>
+            <tr>
+                <td>Numbers teckets:</td>
+                <td th:text="${movie.numberOfTickets}"></td>
+            </tr>
+        </table>
+        <hr>
+        <p class="mb-0">
+            <a href="/movies">
+                <button type="button" class="btn btn-warning m-2">Back to List Movies</button>
+            </a>
+        </p>
+    </div>
+</div>
+
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

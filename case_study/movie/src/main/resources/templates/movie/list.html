@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:replace="/layout/layout::header"></div>
+<div class="row">
+    <div class="col-10 text-center m-auto p-5">
+        <h2>Question List</h2>
+        <div class="col-12 ">
+            <p class=" float-left ">
+                <a href="/movies/create-movie">
+                    <button type="button" class="btn btn-warning m-2">Create Movie</button>
+                </a>
+            </p>
+            <form class="form-inline float-right  ">
+
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div th:if="${movies.getNumberOfElements()==0}">
+            <div class="alert alert-danger" role="alert">
+                No movies find any question
+                <a href="/movies">
+                    <button type="button" class="btn btn-warning text-center ">Movies list</button>
+                </a>
+            </div>
+
+        </div>
+        <div th:if="${movies.getNumberOfElements()!=0}">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Code Movie</th>
+                    <th scope="col">Name Movie</th>
+                    <th scope="col">Date Screening</th>
+                    <th scope="col">Number Of Tickets</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="movie,status : ${movies}">
+                    <tr>
+                        <td th:text="${status.count}"></td>
+                        <td th:text="${movie.codeMovie}"></td>
+                        <td><a th:href="@{/movies/view-movie/__${movie.id}__ }"
+                               th:text="${movie.nameMovie}"></a></td>
+                        <td th:text="${movie.dateScreening}"></td>
+                        <td th:text="${movie.numberOfTickets}"></td>
+                        <td ><a th:href="@{/movies/edit-movie/__${movie.id}__ }">
+                            <button type="button" class="btn btn-primary">Edit</button>
+                        </a></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#exampleModal" th:data2="${movie.nameMovie}" th:data1="${movie.id}" th:onclick="|deleteMovie(this.getAttribute('data1'),this.getAttribute('data2'))|">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+
+                </th:block>
+                </tbody>
+            </table>
+            <div class="float-right">
+                <ul class="pagination" th:if="${search == null}">
+                    <li class="page-item"><a class="page-link" th:href="@{/movies(page=${movies.number - 1})}" th:if="${movies.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${movies.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link" >of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${movies.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/movies(page=${movies.number + 1})}" th:if="${movies.hasNext()}" th:text="Next"></a></li>
+                </ul>
+                <ul class="pagination" th:if="${search != null}">
+                    <li class="page-item"><a class="page-link" th:href="@{/movies(search=${search},page=${movies.number - 1})}" th:if="${movies.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${movies.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link" >of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${movies.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/movies(search=${search},page=${movies.number + 1})}" th:if="${movies.hasNext()}" th:text="Next"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="/movies/delete-movie">
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="title">Delete Movies </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <p>Do you really want to delete.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--Modal-->
+<script>
+    function deleteMovie(id,nameMovie) {
+        document.getElementById('id').value =id;
+        document.getElementById('title').innerText=nameMovie;
+    }
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>
