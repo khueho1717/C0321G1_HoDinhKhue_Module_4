@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:replace="/layout/layout::header"></div>
+<div class="row">
+    <div class="col-10 m-auto p-5">
+        <a href="/questions">
+            <button type="button" class="btn btn-warning ">Question list</button>
+        </a>
+        <h2>Create Question</h2>
+
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <th:block th:if="${messageFails}">
+            <div class="alert alert-danger" role="alert" th:text="${messageFails}"></div>
+        </th:block>
+        <form th:object="${question}" th:action="@{/questions/edit-question}" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input type="text" hidden th:field="*{questionId}">
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           th:field="*{questionTitle}">
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('questionTitle')}"
+                          th:errors="*{questionTitle}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="exampleInputEmail1">Date Create</label>
+                    <input type="text" class="form-control" id="exampleInputEmail11" aria-describedby="emailHelp"
+                           th:field="*{dateCreate}" readonly>
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('dateCreate')}"
+                          th:errors="*{dateCreate}"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="exampleFormControlSelect21">Status</label>
+                    <select onchange="editQuestion()" class="form-control" id="exampleFormControlSelect21"th:field="*{status}">
+                        <option value="1">Đã phản hồi</option>
+                        <option value="0">Chưa phản hồi</option>
+                    </select>
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('status')}"
+                          th:errors="*{status}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail">Content</label>
+<!--                    <input id="date-create" type="text" th:field="*{dateCreate} "readonly>-->
+<!--                    <input id="status" type="number" hidden value="0" th:field="*{status}">-->
+                    <textarea class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                              placeholder="Input Content" rows="7" th:field="*{questionContent}"></textarea>
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('questionContent')}"
+                          th:errors="*{questionContent}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail7">Answer</label>
+                    <!--                    <input id="date-create" type="text" th:field="*{dateCreate} "readonly>-->
+                    <!--                    <input id="status" type="number" hidden value="0" th:field="*{status}">-->
+                    <textarea class="form-control" readonly id="exampleInputEmail7" aria-describedby="emailHelp"
+                              placeholder="Input answer" rows="4" th:field="*{answer}"></textarea>
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('answer')}"
+                          th:errors="*{answer}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect4">Question Type</label>
+                    <select class="form-control" id="exampleFormControlSelect4" th:field="*{questionType}">
+                        <option th:each="q : ${questionType}" th:value="${q.questionTypeId}"
+                                th:text="${q.questionTypeName}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" >Edit Question</button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+function editQuestion() {
+
+console.log('bắt sựu kiện');
+    let e = document.getElementById('exampleFormControlSelect21').value;
+    console.log(e);
+    if (e==1){
+        document.getElementById('exampleInputEmail7').removeAttribute('readonly')
+    }else {
+        document.getElementById('exampleInputEmail7').readOnly=true;
+        document.getElementById('exampleInputEmail7').value=null;
+    }
+
+}
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+</body>
+
+</html>

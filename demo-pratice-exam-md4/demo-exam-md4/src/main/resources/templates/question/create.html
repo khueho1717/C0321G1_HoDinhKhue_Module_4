@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:replace="/layout/layout::header"></div>
+<div class="row">
+    <div class="col-10 m-auto p-5">
+        <a href="/questions">
+            <button type="button" class="btn btn-warning ">Question list</button>
+        </a>
+        <h2>Create Question</h2>
+
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <th:block th:if="${messageFails}">
+            <div class="alert alert-danger" role="alert" th:text="${messageFails}"></div>
+        </th:block>
+        <form th:object="${question}" th:action="@{/questions/create-question}" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                           th:field="*{questionTitle}">
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('questionTitle')}"
+                          th:errors="*{questionTitle}"></span>
+                </div>
+
+                <!--                <div class="form-group col-md-2">-->
+                <!--                    <label for="exampleInputEmail">Content</label>-->
+                <!--                    <input type="text-area" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"-->
+                <!--                           placeholder="Enter email" th:field="*{questionContent}">-->
+                <!--                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('questionContent')}"-->
+                <!--                          th:errors="*{questionContent}"></span>-->
+                <!--                </div>-->
+                <!--                <div class="form-group col-md-2">-->
+                <!--                    <label for="exampleInputEmail8">Total Money</label>-->
+                <!--                    <input type="number" class="form-control" id="exampleInputEmail8" aria-describedby="emailHelp"-->
+                <!--                           placeholder="Enter email" th:field="*{contractTotalMoney}">-->
+                <!--                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('contractTotalMoney')}"-->
+                <!--                          th:errors="*{contractTotalMoney}"></span>-->
+                <!--                </div>-->
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail">Content</label>
+                    <input id="date-create" type="text"  value="" th:field="*{dateCreate} "readonly>
+                    <input id="status" type="number" hidden value="0" th:field="*{status}">
+                    <textarea class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
+                              placeholder="Input Content" rows="7" th:field="*{questionContent}"></textarea>
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('questionContent')}"
+                          th:errors="*{questionContent}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect4">Question Type</label>
+                    <select class="form-control" id="exampleFormControlSelect4" th:field="*{questionType.questionTypeId}">
+                        <option selected th:value="-1">--chọn loại câu hỏi--</option>
+                        <option th:each="q : ${questionType}" th:value="${q.questionTypeId}"
+                                th:text="${q.questionTypeName}"></option>
+                    </select>
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('questionType.questionTypeId')}"
+                          th:errors="*{questionType.questionTypeId}"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Question</button>
+        </form>
+    </div>
+</div>
+<script>
+
+    var today = new Date();
+    var date =  today.getFullYear() + '-'+ (today.getMonth() + 1) +'-' +today.getDate() ;
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+    document.getElementById('date-create').value = dateTime;
+    console.log(dateTime)
+
+
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

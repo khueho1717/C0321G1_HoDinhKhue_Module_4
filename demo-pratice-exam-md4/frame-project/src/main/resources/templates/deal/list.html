@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-10 text-center m-auto p-5">
+        <h2>Deal List</h2>
+        <div class="col-12 ">
+            <p class=" float-left ">
+                <a href="/deals/create-deal">
+                    <button type="button" class="btn btn-warning m-2">Create Deal</button>
+                </a>
+            </p>
+
+            <form class="form-inline float-right  ">
+                <ul class="nav nav-pills">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Search by service type</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/deals?search=1">Nhà</a>
+                            <a class="dropdown-item" href="/deals?search=2">Nhà và Đất</a>
+                        </div>
+                    </li>
+                </ul>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+
+        </div>
+        <div th:if="${deals.getNumberOfElements()==0}">
+            <div class="alert alert-danger" role="alert">
+                No Deal find any Deals
+                <a href="/deals">
+                    <button type="button" class="btn btn-warning text-center ">Deal list</button>
+                </a>
+            </div>
+
+        </div>
+        <div th:if="${deals.getNumberOfElements()!=0}">
+            <table class="table table-striped ">
+                <thead>
+                <tr>
+                    <th scope="col">Code Deal</th>
+                    <th scope="col">Name Customer</th>
+                    <th scope="col">Service Type</th>
+                    <th scope="col">Date Deal</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Area</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="deal : ${deals}">
+                    <tr>
+
+                        <td th:text="${deal.dealCode}"></td>
+                        <td th:text="${deal.customer.nameCustomer}"></td>
+                        <td th:if="${deal.serviceType == 1}">Nhà</td>
+                        <td th:if="${deal.serviceType == 2}">Nhà và Đát</td>
+                        <td th:text="${deal.dateDeal}"></td>
+                        <td th:text="${deal.unitPrice}"></td>
+                        <td th:text="${deal.areaUse}"></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#exampleModal2" th:data1="${deal.idDeal}"
+                                    th:data2="${deal.dealCode}" th:data3="${deal.serviceType}"
+                                    th:data4="${deal.dateDeal}" th:data5="${deal.unitPrice}"
+                                    th:data6="${deal.areaUse}" th:data7="${deal.customer.nameCustomer}"
+                                    th:data8="${deal.customer.numberPhone}" th:data9="${deal.customer.emailCustomer}"
+                                    th:onclick="|viewDeal(this.getAttribute('data1'),this.getAttribute('data2'),
+                                    this.getAttribute('data3'),this.getAttribute('data4'),
+                                    this.getAttribute('data5'),this.getAttribute('data6'),
+                                    this.getAttribute('data7'),this.getAttribute('data8'),
+                                    this.getAttribute('data9'))|">
+                                chi tiết
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+
+            <div class="float-right">
+                <ul class="pagination" th:if="${search == null}">
+                    <li class="page-item"><a class="page-link" th:href="@{/deals(page=${deals.number - 1})}"
+                                             th:if="${deals.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${deals.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link">of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${deals.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/deals(page=${deals.number + 1})}"
+                                             th:if="${deals.hasNext()}" th:text="Next"></a></li>
+                </ul>
+                <ul class="pagination" th:if="${search != null}">
+                    <li class="page-item"><a class="page-link"
+                                             th:href="@{/deals(search=${search},page=${deals.number - 1})}"
+                                             th:if="${deals.hasPrevious()}" th:text="Previous"></a></li>
+                    <li class="page-item"><span class="page-link" th:text="${deals.number + 1}"></span></li>
+                    <li class="page-item"><span class="page-link">of</span></li>
+                    <li class="page-item"><span class="page-link" th:text="${deals.totalPages}"></span></li>
+                    <li class="page-item"><a class="page-link"
+                                             th:href="@{/deals(search=${search},page=${deals.number + 1})}"
+                                             th:if="${deals.hasNext()}" th:text="Next"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<form action="/deals/delete-deal">
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Deal </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <p id="message"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--Modal-->
+
+<div class="modal" id="exampleModal2" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success ">view Deal </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" id="id2" name="id">
+            <div class="modal-body">
+                <input hidden id="id_deal">
+                <input hidden id="name_deal">
+                <p><strong class="text-warning">Mã giao dịch      : </strong><span id="codeDeal"></span></p>
+                <p><strong class="text-warning">Loại bất động sản : </strong><span id="serviceType"></span></p>
+                <p><strong class="text-warning">Ngày giao dịch    : </strong><span id="dateDeal"></span></p>
+                <p><strong class="text-warning">Đơn giá(VND)      : </strong><span id="unit"></span></p>
+                <p><strong class="text-warning">Diện tích         : </strong><span id="area"></span></p>
+                <p><strong class="text-warning">Tên khác hàng     : </strong><span id="name"></span></p>
+                <p><strong class="text-warning">Số điện thoại     : </strong><span id="numberPhone"></span></p>
+                <p><strong class="text-warning">Email : </strong><span id="emailCustomer"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Quay lại</button>
+                <button type="button"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        onclick="deleteDeal()" class="btn btn-warning" data-dismiss="modal">Xóa
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteDeal() {
+        let id = document.getElementById('id_deal').value;
+        let name=document.getElementById('name_deal').value;
+        document.getElementById('id').value=id;
+        document.getElementById('message').innerHTML="Do you want delete: "+'<b>'+name+'</b>';
+    }
+
+    function viewDeal(id, code, type, dateCreate, unit, area, name, phoneC, emailC) {
+        // console.log(name,phoneC,emailC)
+        document.getElementById('id_deal').value = id;
+        document.getElementById('name_deal').value = name;
+        document.getElementById('codeDeal').innerText = code;
+        if (type == 1) {
+            document.getElementById('serviceType').innerText = "Nhà";
+        } else {
+            document.getElementById('serviceType').innerText = "Nhà và Đất";
+        }
+        document.getElementById('emailCustomer').innerText = emailC;
+        document.getElementById('numberPhone').innerText = phoneC;
+        document.getElementById('dateDeal').innerText = dateCreate;
+        document.getElementById('unit').innerText = unit;
+        document.getElementById('area').innerText = area;
+        document.getElementById('name').innerText = name;
+        document.getElementById('type').innerText = type;
+        document.getElementById('date').innerText = dateCreate;
+    }
+</script>
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

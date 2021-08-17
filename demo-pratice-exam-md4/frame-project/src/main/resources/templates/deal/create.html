@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-10 m-auto p-5">
+        <h2>Deal Create</h2>
+        <a href="/deals">
+            <button type="button" class="btn btn-warning ">Deal list</button>
+        </a>
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <th:block th:if="${messageFails}">
+            <div class="alert alert-danger" role="alert" th:text="${messageFails}"></div>
+        </th:block>
+        <form th:object="${deal}" th:action="@{/deals/create-deal}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Code</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{dealCode}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('dealCode')}"
+                          th:errors="*{dealCode}"></span>
+                    <span class="small " style="color: red" th:text="${messageCode}"></span>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+
+                        <label for="exampleFormControlSelect4">Customer Name</label>
+                        <select class="form-control" id="exampleFormControlSelect4" th:field="*{customer.id}">
+                            <option selected="selected" th:value="-1">--Choose customer type--</option>
+                            <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.nameCustomer}"></option>
+                        </select>
+                        <span class="small " style="color: red"  th:if="${#fields.hasErrors('customer.id')}"
+                              th:errors="*{customer.id}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputPassword1">Date Deal</label>
+                    <input type="date" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                           th:field="*{dateDeal}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('dateDeal')}"
+                          th:errors="*{dateDeal}"></span>
+                </div>
+
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-4">
+                    <label for="inputCity2">Unit</label>
+                    <input type="text" class="form-control" id="inputCity2" th:field="*{unitPrice}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('unitPrice')}"
+                          th:errors="*{unitPrice}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+
+
+                <div class="form-group col-md-4">
+                    <label for="inputCity6">Area</label>
+                    <input type="text" class="form-control" id="inputCity6" th:field="*{areaUse}">
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('areaUse')}"
+                          th:errors="*{areaUse}"></span>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect1">Service Type</label>
+                    <select class="form-control" id="exampleFormControlSelect1" th:field="*{serviceType}">
+                        <!--                        <option selected value="-1" >&#45;&#45;Choose gender&#45;&#45;</option>-->
+                        <option selected="selected" th:value="0">--Choose service--</option>
+
+                        <option value="1">Nhà</option>
+                        <option value="2">Nhà và Đất</option>
+                    </select>
+                    <span class="small " style="color: red"  th:if="${#fields.hasErrors('serviceType')}"
+                          th:errors="*{serviceType}"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>

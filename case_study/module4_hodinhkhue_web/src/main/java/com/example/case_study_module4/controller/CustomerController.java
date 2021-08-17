@@ -52,9 +52,20 @@ public class CustomerController {
 
     @PostMapping("/create-customer")
     public String saveBlog(@Validated @ModelAttribute(name = "customer") CustomerDto customer, BindingResult bindingResult, Model model) {
+        new CustomerDto().validate(customer,bindingResult);
         if (!bindingResult.hasErrors()) {
             Customer customer1=new Customer();
             BeanUtils.copyProperties(customer,customer1);
+            Iterable<Customer> customers=customerService.findAll();
+            for (Customer customer2: customers){
+                if (customer1.getCustomerCode().equals(customer2.getCustomerCode())){
+                    model.addAttribute("customer",customer);
+                    model.addAttribute("customerType", customerTypeService.findAll());
+                    model.addAttribute("messageCode","mã trùng");
+                    model.addAttribute("messageFails", "Customer create failure");
+                    return "/customer/create";
+                }
+            }
             customerService.save(customer1);
             model.addAttribute("customer", new CustomerDto());
             model.addAttribute("customerType", customerTypeService.findAll());
@@ -84,9 +95,20 @@ public class CustomerController {
 
     @PostMapping("/edit-customer")
     public String updateCustomer(@Validated @ModelAttribute(name = "customer") CustomerDto customer, BindingResult bindingResult, Model model) {
+        new CustomerDto().validate(customer,bindingResult);
         if (!bindingResult.hasErrors()) {
             Customer customer1=new Customer();
             BeanUtils.copyProperties(customer,customer1);
+            Iterable<Customer> customers=customerService.findAll();
+            for (Customer customer2: customers){
+                if (customer1.getCustomerCode().equals(customer2.getCustomerCode())){
+                    model.addAttribute("customer",customer);
+                    model.addAttribute("customerType", customerTypeService.findAll());
+                    model.addAttribute("messageCode","mã trùng");
+                    model.addAttribute("messageFails", "Customer edit failure");
+                    return "/customer/create";
+                }
+            }
             customerService.save(customer1);
             model.addAttribute("customer", new CustomerDto());
             model.addAttribute("customerType", customerTypeService.findAll());

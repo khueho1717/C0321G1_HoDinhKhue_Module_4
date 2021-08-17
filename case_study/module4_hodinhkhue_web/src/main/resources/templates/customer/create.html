@@ -51,6 +51,7 @@
                     <input type="text" class="form-control" id="inputCity7" th:field="*{customerCode}">
                     <span class="small " style="color: red"  th:if="${#fields.hasErrors('customerCode')}"
                           th:errors="*{customerCode}"></span>
+                    <span class="small " style="color: red" th:text="${messageCode}"></span>
                 </div>
             </div>
             <div class="form-row">
@@ -69,6 +70,9 @@
                 <div class="form-group col-md-4">
                     <label for="exampleFormControlSelect1">Gender</label>
                     <select class="form-control" id="exampleFormControlSelect1" th:field="*{customerGender}">
+<!--                        <option selected value="-1" >&#45;&#45;Choose gender&#45;&#45;</option>-->
+                        <option selected="selected" th:value="-1">--Choose gender--</option>
+
                         <option value="1">Male</option>
                         <option value="2">Female</option>
                         <option value="0">LGBT</option>

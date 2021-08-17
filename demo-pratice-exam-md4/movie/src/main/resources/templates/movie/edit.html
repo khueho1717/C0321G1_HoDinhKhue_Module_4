@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout::head"></head>
+<body>
+<div th:insert="/layout/layout::nav"></div>
+<div class="row">
+    <div class="col-10 m-auto p-5">
+        <h2>Edit Movie</h2>
+        <a href="/movies">
+            <button type="button" class="btn btn-warning ">Movies list</button>
+        </a>
+        <th:block th:if="${message}">
+            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        </th:block>
+        <th:block th:if="${messageFails}">
+            <div class="alert alert-danger" role="alert" th:text="${messageFails}"></div>
+        </th:block>
+        <form th:object="${movie}" th:action="@{/movies/edit-movie}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail1">Code movie</label>
+                    <input type="number" hidden th:field="*{id}">
+                    <input type="text" class="form-control" id="exampleInputEmail1" readonly aria-describedby="emailHelp"
+                           th:field="*{codeMovie}">
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('codeMovie')}"
+                          th:errors="*{codeMovie}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail12">Name movie</label>
+                    <input type="text" class="form-control" id="exampleInputEmail12" aria-describedby="emailHelp"
+                           th:field="*{nameMovie}">
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('nameMovie')}"
+                          th:errors="*{nameMovie}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail11">Date screening</label>
+                    <input type="date" class="form-control" id="exampleInputEmail11" aria-describedby="emailHelp"
+                           th:field="*{dateScreening}">
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('dateScreening')}"
+                          th:errors="*{dateScreening}"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="exampleInputEmail21">Numbers of Teckets</label>
+                    <input type="number" class="form-control" id="exampleInputEmail21" aria-describedby="emailHelp"
+                           th:field="*{numberOfTickets}">
+                    <span class="small " style="color: red" th:if="${#fields.hasErrors('numberOfTickets')}"
+                          th:errors="*{numberOfTickets}"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Movie</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="/layout/layout::footer"></div>
+<div th:replace="/layout/layout::script"></div>
+
+</body>
+
+</html>
